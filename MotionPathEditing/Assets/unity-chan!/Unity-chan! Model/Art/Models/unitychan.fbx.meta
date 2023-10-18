@@ -1214,9 +1214,7 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: "Avatar creation errors found in old project file will be
-      treated as a warnings. Error will be ignored, but current Configuration needs
-      to be fixed:\n\tTransform 'Character1_Hips' not found in HumanDescription.\n"
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -1337,7 +1335,7 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: Character1_Spine
+    - boneName: Character1_Spine1
       humanName: Spine
       limit:
         min: {x: 0, y: 0, z: 0}
