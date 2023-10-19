@@ -141,9 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetAvatar: {fileID: 23208486}
-  filename: E:\ntust\course\Unity\3D_Game\MotionPathEditing\bvh_sample_files\walk_loop.bvh
+  filename: G:\3D_Game\MotionPathEditing\bvh_sample_files\walk_loop.bvh
   frameRate: 0
-  FirstT: 0
+  FirstT: 1
   bonemaps: []
 --- !u!95 &23208486 stripped
 Animator:
@@ -435,13 +435,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -10, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &1682633060
 PrefabInstance:
   m_ObjectHideFlags: 0

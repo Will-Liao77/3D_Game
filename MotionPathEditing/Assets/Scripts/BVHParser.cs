@@ -529,6 +529,7 @@ namespace Assets.Scripts
             return hierachy;
         }
 
+        // ZXY ZYX XYZ XZY YXZ YZX 
         public Dictionary<string, Quaternion> getKeyFrame(int frameIdx)
         {
             Dictionary<string, string> hierachy = getHierachy();
@@ -538,29 +539,122 @@ namespace Assets.Scripts
                 boneList[0].channels[1].values[frameIdx],
                 boneList[0].channels[2].values[frameIdx], 0));
 
-            // boneData.Add(boneList[0].name, eul2quat(
-            //         boneList[0].channels[3].values[frameIdx],
-            //         boneList[0].channels[4].values[frameIdx],
-            //         boneList[0].channels[5].values[frameIdx]));
-            boneData.Add(boneList[0].name, eul2quat(
-                boneList[0].channels[5].values[frameIdx],
-                boneList[0].channels[3].values[frameIdx],
-                boneList[0].channels[4].values[frameIdx]
-                ));
+            // ZXY
+            if (boneList[0].channelOrder[3] == 5 && boneList[0].channelOrder[4] == 3 && boneList[0].channelOrder[5] == 4)
+            {
+                boneData.Add(boneList[0].name, eul2quat(
+                    boneList[0].channels[5].values[frameIdx],
+                    boneList[0].channels[3].values[frameIdx],
+                    boneList[0].channels[4].values[frameIdx]
+                    ));
+            }
+            // ZYX
+            else if (boneList[0].channelOrder[3] == 5 && boneList[0].channelOrder[4] == 4 && boneList[0].channelOrder[5] == 3)
+            {
+                boneData.Add(boneList[0].name, eul2quat(
+                    boneList[0].channels[5].values[frameIdx],
+                    boneList[0].channels[4].values[frameIdx],
+                    boneList[0].channels[3].values[frameIdx]
+                    ));
+            }
+            // XYZ
+            else if (boneList[0].channelOrder[3] == 3 && boneList[0].channelOrder[4] == 4 && boneList[0].channelOrder[5] == 5)
+            {
+                boneData.Add(boneList[0].name, eul2quat(
+                    boneList[0].channels[3].values[frameIdx],
+                    boneList[0].channels[4].values[frameIdx],
+                    boneList[0].channels[5].values[frameIdx]
+                    ));
+            }
+            // XZY
+            else if (boneList[0].channelOrder[3] == 3 && boneList[0].channelOrder[4] == 5 && boneList[0].channelOrder[5] == 4)
+            {
+                boneData.Add(boneList[0].name, eul2quat(
+                    boneList[0].channels[3].values[frameIdx],
+                    boneList[0].channels[5].values[frameIdx],
+                    boneList[0].channels[4].values[frameIdx]
+                    ));
+            }
+            // YXZ
+            else if (boneList[0].channelOrder[3] == 4 && boneList[0].channelOrder[4] == 3 && boneList[0].channelOrder[5] == 5)
+            {
+                boneData.Add(boneList[0].name, eul2quat(
+                    boneList[0].channels[4].values[frameIdx],
+                    boneList[0].channels[3].values[frameIdx],
+                    boneList[0].channels[5].values[frameIdx]
+                    ));
+            }
+            // YZX
+            else if (boneList[0].channelOrder[3] == 4 && boneList[0].channelOrder[4] == 5 && boneList[0].channelOrder[5] == 3)
+            {
+                boneData.Add(boneList[0].name, eul2quat(
+                    boneList[0].channels[4].values[frameIdx],
+                    boneList[0].channels[5].values[frameIdx],
+                    boneList[0].channels[3].values[frameIdx]
+                    ));
+            }
+
             foreach (BVHBone bb in boneList)
             {
                 if (bb.name != boneList[0].name)
                 {
-                    // Quaternion localrot = eul2quat(bb.channels[3].values[frameIdx],
-                    //     bb.channels[4].values[frameIdx],
-                    //     bb.channels[5].values[frameIdx]);
-                    Quaternion localrot = eul2quat(
-                        bb.channels[5].values[frameIdx],
-                        bb.channels[3].values[frameIdx],
-                        bb.channels[4].values[frameIdx]);
-                    boneData.Add(bb.name, boneData[hierachy[bb.name]] * localrot);
+                    // ZXY
+                    if (bb.channelOrder[3] == 5 && bb.channelOrder[4] == 3 && bb.channelOrder[5] == 4)
+                    {
+                        Quaternion localrot = eul2quat(
+                            bb.channels[5].values[frameIdx],
+                            bb.channels[3].values[frameIdx],
+                            bb.channels[4].values[frameIdx]);
+                        boneData.Add(bb.name, boneData[hierachy[bb.name]] * localrot);
+                    }
+                    // ZYX
+                    else if (boneList[0].channelOrder[3] == 5 && boneList[0].channelOrder[4] == 4 && boneList[0].channelOrder[5] == 3)
+                    {
+                        Quaternion localrot = eul2quat(
+                            bb.channels[5].values[frameIdx],
+                            bb.channels[4].values[frameIdx],
+                            bb.channels[3].values[frameIdx]);
+                        boneData.Add(bb.name, boneData[hierachy[bb.name]] * localrot);
+                    }
+                    // XYZ
+                    else if (boneList[0].channelOrder[3] == 3 && boneList[0].channelOrder[4] == 4 && boneList[0].channelOrder[5] == 5)
+                    {
+                        Quaternion localrot = eul2quat(
+                            bb.channels[3].values[frameIdx],
+                            bb.channels[4].values[frameIdx],
+                            bb.channels[5].values[frameIdx]);
+                        boneData.Add(bb.name, boneData[hierachy[bb.name]] * localrot);
+                    }
+                    // XZY
+                    else if (boneList[0].channelOrder[3] == 3 && boneList[0].channelOrder[4] == 5 && boneList[0].channelOrder[5] == 4)
+                    {
+                        Quaternion localrot = eul2quat(
+                            bb.channels[3].values[frameIdx],
+                            bb.channels[5].values[frameIdx],
+                            bb.channels[4].values[frameIdx]);
+                        boneData.Add(bb.name, boneData[hierachy[bb.name]] * localrot);
+                    }
+                    // YXZ
+                    else if (boneList[0].channelOrder[3] == 4 && boneList[0].channelOrder[4] == 3 && boneList[0].channelOrder[5] == 5)
+                    {
+                        Quaternion localrot = eul2quat(
+                            bb.channels[4].values[frameIdx],
+                            bb.channels[3].values[frameIdx],
+                            bb.channels[5].values[frameIdx]);
+                        boneData.Add(bb.name, boneData[hierachy[bb.name]] * localrot);
+                    }
+                    // YZX
+                    else if (boneList[0].channelOrder[3] == 4 && boneList[0].channelOrder[4] == 5 && boneList[0].channelOrder[5] == 3)
+                    {
+                        Quaternion localrot = eul2quat(
+                            bb.channels[4].values[frameIdx],
+                            bb.channels[5].values[frameIdx],
+                            bb.channels[3].values[frameIdx]);
+                        boneData.Add(bb.name, boneData[hierachy[bb.name]] * localrot);
+                    }
                 }
             }
+
             return boneData;
         }
 
