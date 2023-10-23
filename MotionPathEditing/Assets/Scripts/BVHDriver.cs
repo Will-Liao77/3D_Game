@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts;
+using System.Windows.Forms;
 
 public class BVHDriver : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class BVHDriver : MonoBehaviour
     [Tooltip("This is the target avatar for which the animation should be loaded. Bone names should be identical to those in the BVH file and unique. All bones should be initialized with zero rotations. This is usually the case for VRM avatars.")]
     public Animator targetAvatar;
     [Tooltip("This is the path to the BVH file that should be loaded. Bone offsets are currently being ignored by this loader.")]
-    public string filename;
-    [Tooltip("If the flag above is disabled, the frame rate given in the BVH file will be overridden by this value.")]
+    // public string filename;
+    // [Tooltip("If the flag above is disabled, the frame rate given in the BVH file will be overridden by this value.")]
     public float frameRate = 60.0f;
     [Tooltip("If the BVH first frame is T(if not,make sure the defined skeleton is T).")]
     public bool FirstT = true;
@@ -28,9 +29,27 @@ public class BVHDriver : MonoBehaviour
     private BVHParser bp = null;
     private Animator anim;
 
+    public string OpenFileByDll()
+    {
+        OpenFileDialog dialog = new OpenFileDialog();
+        dialog.Filter = "All Files (*.*)|*.*";
+
+        dialog.InitialDirectory = @"C:\";
+        if (dialog.ShowDialog() == DialogResult.OK)
+        {
+            string path = dialog.FileName;
+            Debug.Log(path);
+            return path;
+        }
+        throw new ArgumentException("Failed to Load BVH File" + dialog.FileName);
+    }
+
     // This function doesn't call any Unity API functions and should be safe to call from another thread
     public void parseFile()
     {
+        // print("file path: " + filename);
+        // string filename = "G:/3D_Game/MotionPathEditing/bvh_sample_files/walk_loop.bvh";
+        string filename = OpenFileByDll();
         string bvhData = File.ReadAllText(filename);
         bp = new BVHParser(bvhData);
         frameRate = 1f / bp.frameTime;
@@ -92,7 +111,7 @@ public class BVHDriver : MonoBehaviour
     private void Start()
     {
         parseFile();
-        Application.targetFrameRate = (Int16)frameRate;
+        UnityEngine.Application.targetFrameRate = (Int16)frameRate;
 
         bvhT = bp.getKeyFrame(0);
         bvhOffset = bp.getOffset(1.0f);

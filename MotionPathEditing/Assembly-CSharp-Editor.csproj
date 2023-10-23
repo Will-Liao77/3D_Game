@@ -314,6 +314,9 @@
     <Reference Include="log4netPlastic">
         <HintPath>G:\3D_Game\MotionPathEditing\Library\PackageCache\com.unity.collab-proxy@2.0.7\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms">
+        <HintPath>G:\3D_Game\MotionPathEditing\Assets\Plugins\System.Windows.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualScripting.IonicZip">
         <HintPath>G:\3D_Game\MotionPathEditing\Library\PackageCache\com.unity.visualscripting@1.9.0\Editor\VisualScripting.Core\Dependencies\DotNetZip\Unity.VisualScripting.IonicZip.dll</HintPath>
     </Reference>
