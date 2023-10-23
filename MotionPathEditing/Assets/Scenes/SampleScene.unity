@@ -917,9 +917,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 23208484}
-        m_TargetAssemblyTypeName: OpenFileByDll, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 23208485}
+        m_TargetAssemblyTypeName: BVHDriver, Assembly-CSharp
+        m_MethodName: parseFile
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

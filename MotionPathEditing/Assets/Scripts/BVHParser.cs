@@ -347,65 +347,6 @@ namespace Assets.Scripts
             assure(text, expect(text));
         }
 
-        /*private void tryCustomFloats(string[] floats) {
-            float total = 0f;
-            foreach (string f in floats) {
-                pos = 0;
-                bvhText = f;
-                float v;
-                getFloat(out v);
-                total += v;
-            }
-            Debug.Log("Custom: " + total);
-        }
-
-        private void tryStandardFloats(string[] floats) {
-            IFormatProvider fp = CultureInfo.InvariantCulture;
-            float total = 0f;
-            foreach (string f in floats) {
-                float v = float.Parse(f, fp);
-                total += v;
-            }
-            Debug.Log("Standard: " + total);
-        }
-
-        private void tryCustomInts(string[] ints) {
-            int total = 0;
-            foreach (string i in ints) {
-                pos = 0;
-                bvhText = i;
-                int v;
-                getInt(out v);
-                total += v;
-            }
-            Debug.Log("Custom: " + total);
-        }
-
-        private void tryStandardInts(string[] ints) {
-            IFormatProvider fp = CultureInfo.InvariantCulture;
-            int total = 0;
-            foreach (string i in ints) {
-                int v = int.Parse(i, fp);
-                total += v;
-            }
-            Debug.Log("Standard: " + total);
-        }
-
-        public void benchmark () {
-            string[] floats = new string[105018];
-            string[] ints = new string[105018];
-            for (int i = 0; i < floats.Length; i++) {
-                floats[i] = UnityEngine.Random.Range(-180f, 180f).ToString();
-            }
-            for (int i = 0; i < ints.Length; i++) {
-                ints[i] = ((int)Mathf.Round(UnityEngine.Random.Range(-180f, 18000f))).ToString();
-            }
-            tryCustomFloats(floats);
-            tryStandardFloats(floats);
-            tryCustomInts(ints);
-            tryStandardInts(ints);
-        }*/
-
         private void parse(bool overrideFrameTime, float time)
         {
             // Prepare character table

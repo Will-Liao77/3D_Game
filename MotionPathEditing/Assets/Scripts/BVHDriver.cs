@@ -17,22 +17,13 @@ public class BVHDriver : MonoBehaviour
     public float frameRate = 60.0f;
     [Tooltip("If the BVH first frame is T(if not,make sure the defined skeleton is T).")]
     public bool FirstT = true;
-
-    // [Serializable]
-    // public struct BoneMap
-    // {
-    //     public string bvh_name;
-    //     public HumanBodyBones humanoid_bone;
-    // }
-    // [Tooltip("If the flag above is disabled, the frame rate given in the BVH file will be overridden by this value.")]
-    // public BoneMap[] bonemaps; // the corresponding bones between unity and bvh
     private BVHParser bp = null;
     private Animator anim;
 
     public string OpenFileByDll()
     {
         OpenFileDialog dialog = new OpenFileDialog();
-        dialog.Filter = "All Files (*.*)|*.*";
+        dialog.Filter = "BVH Files (*.bvh)|*.bvh";
 
         dialog.InitialDirectory = @"C:\";
         if (dialog.ShowDialog() == DialogResult.OK)
@@ -120,31 +111,6 @@ public class BVHDriver : MonoBehaviour
         anim = targetAvatar.GetComponent<Animator>();
         unityT = new Dictionary<HumanBodyBones, Quaternion>();
 
-        // lineRenderer = gameObject.AddComponent<LineRenderer>();
-        // lineRenderer.startColor = Color.red;
-        // lineRenderer.endColor = Color.red;
-        // lineRenderer.startWidth = 0.02f;
-        // lineRenderer.endWidth = 0.02f;
-
-        // foreach (BoneMap bm in bonemaps)
-        // {
-        //     unityT.Add(bm.humanoid_bone, anim.GetBoneTransform(bm.humanoid_bone).rotation);
-        // }
-
-        // float unity_leftleg = (anim.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position - anim.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position).sqrMagnitude +
-        //     (anim.GetBoneTransform(HumanBodyBones.LeftFoot).position - anim.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position).sqrMagnitude;
-        // float bvh_leftleg = 0.0f;
-
-        // foreach (BoneMap bm in bonemaps)
-        // {
-        //     if (bm.humanoid_bone == HumanBodyBones.LeftUpperLeg || bm.humanoid_bone == HumanBodyBones.LeftLowerLeg)
-        //     {
-        //         bvh_leftleg = bvh_leftleg + bvhOffset[bm.bvh_name].sqrMagnitude;
-        //     }
-        // }
-
-        // scaleRatio = unity_leftleg / bvh_leftleg;
-
         frameIdx = 0;
     }
 
@@ -159,20 +125,6 @@ public class BVHDriver : MonoBehaviour
         {
             frameIdx = 0;
         }
-
-        // foreach (BoneMap bm in bonemaps)
-        // {
-        //     if (FirstT)
-        //     {
-        //         Transform currBone = anim.GetBoneTransform(bm.humanoid_bone);
-        //         currBone.rotation = (currFrame[bm.bvh_name] * Quaternion.Inverse(bvhT[bm.bvh_name])) * unityT[bm.humanoid_bone];
-        //     }
-        //     else
-        //     {
-        //         Transform currBone = anim.GetBoneTransform(bm.humanoid_bone);
-        //         currBone.rotation = currFrame[bm.bvh_name] * unityT[bm.humanoid_bone];
-        //     }
-        // }
 
         // draw bvh skeleton
         Dictionary<string, Vector3> bvhPos = new Dictionary<string, Vector3>();

@@ -90,8 +90,8 @@
      <Compile Include="Assets\Dreamteck\Splines\Editor\SplineEditor\DS Editor\DSCreatePointModule.cs" />
      <Compile Include="Assets\Dreamteck\Splines\Editor\Components\SplineMeshEditor.cs" />
      <Compile Include="Assets\Dreamteck\Splines\Editor\Components\TubeGeneratorEditor.cs" />
-     <Compile Include="Assets\Dreamteck\Splines\Editor\SplineEditorGUI.cs" />
      <Compile Include="Assets\Dreamteck\Splines\Editor\Tools\BakeTool.cs" />
+     <Compile Include="Assets\Dreamteck\Splines\Editor\SplineEditorGUI.cs" />
      <Compile Include="Assets\Dreamteck\Splines\Editor\Components\WaveformGeneratorEditor.cs" />
      <Compile Include="Assets\Dreamteck\Splines\Editor\Components\EdgeColliderGeneratorEditor.cs" />
      <Compile Include="Assets\Dreamteck\Splines\Editor\Components\SplinePositionerEditor.cs" />
@@ -104,8 +104,8 @@
      <Compile Include="Assets\Dreamteck\Splines\Editor\SplinePreset.cs" />
      <Compile Include="Assets\Dreamteck\Splines\Editor\SplineEditor\DS Editor\ComputerEditorModule.cs" />
      <Compile Include="Assets\Dreamteck\Splines\Editor\Sample Modifiers\MeshScaleModifierEditor.cs" />
-     <Compile Include="Assets\Dreamteck\Splines\Editor\Tools\UpdateTool.cs" />
      <Compile Include="Assets\Dreamteck\Splines\Editor\SplineComputerEditorHandles.cs" />
+     <Compile Include="Assets\Dreamteck\Splines\Editor\Tools\UpdateTool.cs" />
      <Compile Include="Assets\Dreamteck\Splines\Editor\Primitives\SpiralEditor.cs" />
      <Compile Include="Assets\Dreamteck\Splines\Editor\SplineComputerEditor.cs" />
      <Compile Include="Assets\Dreamteck\Splines\Editor\Tools\LevelTerrainTool.cs" />
