@@ -16,7 +16,7 @@ public class BVHDriver : MonoBehaviour
     // [Tooltip("If the flag above is disabled, the frame rate given in the BVH file will be overridden by this value.")]
     public float frameRate = 60.0f;
     [Tooltip("If the BVH first frame is T(if not,make sure the defined skeleton is T).")]
-    public bool FirstT = true;
+    public bool FirstT;
     private BVHParser bp = null;
     private Animator anim;
 
@@ -32,7 +32,8 @@ public class BVHDriver : MonoBehaviour
             Debug.Log(path);
             return path;
         }
-        throw new ArgumentException("Failed to Load BVH File" + dialog.FileName);
+        // throw new ArgumentException("Failed to Load BVH File" + dialog.FileName);
+        return null;
     }
 
     // This function doesn't call any Unity API functions and should be safe to call from another thread
@@ -41,9 +42,15 @@ public class BVHDriver : MonoBehaviour
         // print("file path: " + filename);
         // string filename = "G:/3D_Game/MotionPathEditing/bvh_sample_files/walk_loop.bvh";
         string filename = OpenFileByDll();
-        string bvhData = File.ReadAllText(filename);
-        bp = new BVHParser(bvhData);
-        frameRate = 1f / bp.frameTime;
+        if (filename != null)
+        {
+            string bvhData = File.ReadAllText(filename);
+            bp = new BVHParser(bvhData);
+            frameRate = 1f / bp.frameTime;
+            return;
+        }
+
+        throw new ArgumentException("Failed to Load BVH File");
     }
 
     private Dictionary<string, Quaternion> bvhT;
@@ -99,6 +106,18 @@ public class BVHDriver : MonoBehaviour
         }
     }
 
+    private void T_TrasnsformMatrix()
+    {
+        if (FirstT)
+        {
+
+        }
+        else
+        {
+
+        }
+    }
+
     private void Start()
     {
         parseFile();
@@ -151,7 +170,7 @@ public class BVHDriver : MonoBehaviour
         Vector3 bvhRightUpLegPos = bvhPos["RightUpLeg"];
         scaleRatio = Vector3.Distance(modelRightUpLegPos, modelHipsPos) / Vector3.Distance(bvhRightUpLegPos, bvhHipsPos);
 
-        // anim.GetBoneTransform(HumanBodyBones.Hips).position = bvhPos[bp.root.name] * scaleRatio;
+        anim.GetBoneTransform(HumanBodyBones.Hips).position = bvhPos[bp.root.name] * scaleRatio;
         ClearLines();
         DrawModel(bvhPos);
     }

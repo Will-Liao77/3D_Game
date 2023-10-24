@@ -142,7 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetAvatar: {fileID: 23208486}
   frameRate: 0
-  FirstT: 1
+  FirstT: 0
 --- !u!95 &23208486 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: 0774f26ec03a2a940bf7f5545d9d01f1, type: 3}
