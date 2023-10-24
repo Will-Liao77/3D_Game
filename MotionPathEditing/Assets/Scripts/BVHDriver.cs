@@ -108,14 +108,6 @@ public class BVHDriver : MonoBehaviour
 
     private void T_TrasnsformMatrix()
     {
-        if (FirstT)
-        {
-
-        }
-        else
-        {
-
-        }
     }
 
     private void Start()
@@ -171,6 +163,18 @@ public class BVHDriver : MonoBehaviour
         scaleRatio = Vector3.Distance(modelRightUpLegPos, modelHipsPos) / Vector3.Distance(bvhRightUpLegPos, bvhHipsPos);
 
         anim.GetBoneTransform(HumanBodyBones.Hips).position = bvhPos[bp.root.name] * scaleRatio;
+
+        // T pose transform matrix
+        // if (FirstT)
+        // {
+        //     Transform currBone = anim.GetBoneTransform();
+        //     currBone.rotation = (currFrame[currBone.name] * Quaternion.Inverse(bvhT[currBone.name]) * unityT[currBone.name]);
+        // }
+        // else
+        // {
+        //     Transform currBone = anim.GetBoneTransform();
+        //     currBone.rotation = (currFrame[currBone.name] * unityT[currBone.name]);
+        // }
         ClearLines();
         DrawModel(bvhPos);
     }
