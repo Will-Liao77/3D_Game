@@ -12,13 +12,12 @@ public class BVHDriver : MonoBehaviour
     [Tooltip("This is the target avatar for which the animation should be loaded. Bone names should be identical to those in the BVH file and unique. All bones should be initialized with zero rotations. This is usually the case for VRM avatars.")]
     public Animator targetAvatar;
     [Tooltip("This is the path to the BVH file that should be loaded. Bone offsets are currently being ignored by this loader.")]
-    // public string filename;
-    // [Tooltip("If the flag above is disabled, the frame rate given in the BVH file will be overridden by this value.")]
     public float frameRate = 60.0f;
     [Tooltip("If the BVH first frame is T(if not,make sure the defined skeleton is T).")]
     public bool FirstT;
     private BVHParser bp = null;
     private Animator anim;
+    private bool isBVHLoaded = false;
 
     public string OpenFileByDll()
     {
@@ -39,7 +38,6 @@ public class BVHDriver : MonoBehaviour
     // This function doesn't call any Unity API functions and should be safe to call from another thread
     public void parseFile()
     {
-        // print("file path: " + filename);
         // string filename = "G:/3D_Game/MotionPathEditing/bvh_sample_files/walk_loop.bvh";
         string filename = OpenFileByDll();
         if (filename != null)
@@ -47,6 +45,18 @@ public class BVHDriver : MonoBehaviour
             string bvhData = File.ReadAllText(filename);
             bp = new BVHParser(bvhData);
             frameRate = 1f / bp.frameTime;
+
+            UnityEngine.Application.targetFrameRate = (Int16)frameRate;
+            bvhT = bp.getKeyFrame(0);
+            bvhOffset = bp.getOffset(1.0f);
+            bvhHireachy = bp.getHierachy();
+
+            anim = targetAvatar.GetComponent<Animator>();
+            unityT = new Dictionary<HumanBodyBones, Quaternion>();
+
+            frameIdx = 0;
+
+            isBVHLoaded = true;
             return;
         }
 
@@ -78,7 +88,6 @@ public class BVHDriver : MonoBehaviour
 
     private void DrawModel(Dictionary<string, Vector3> bvhPos)
     {
-        // lineRenderer.positionCount = bvhHireachy.Count * 2;
         foreach (string bname in bvhHireachy.Keys)
         {
             // 父關節位置 bvhPos[bvhHireachy[bname]], 子關節位置 bvhPos[bname]
@@ -106,76 +115,61 @@ public class BVHDriver : MonoBehaviour
         }
     }
 
-    private void T_TrasnsformMatrix()
-    {
-    }
-
     private void Start()
     {
-        parseFile();
-        UnityEngine.Application.targetFrameRate = (Int16)frameRate;
-
-        bvhT = bp.getKeyFrame(0);
-        bvhOffset = bp.getOffset(1.0f);
-        bvhHireachy = bp.getHierachy();
-
-        anim = targetAvatar.GetComponent<Animator>();
-        unityT = new Dictionary<HumanBodyBones, Quaternion>();
-
-        frameIdx = 0;
+        // parseFile();
+        // UnityEngine.Application.targetFrameRate = (Int16)frameRate;
+        // bvhT = bp.getKeyFrame(0);
+        // bvhOffset = bp.getOffset(1.0f);
+        // bvhHireachy = bp.getHierachy();
+        // anim = targetAvatar.GetComponent<Animator>();
+        // unityT = new Dictionary<HumanBodyBones, Quaternion>();
+        // frameIdx = 0;
     }
 
     private void Update()
     {
-        Dictionary<string, Quaternion> currFrame = bp.getKeyFrame(frameIdx);//frameIdx 2871
-        if (frameIdx < bp.frames - 1)
+        if (isBVHLoaded)
         {
-            frameIdx++;
-        }
-        else
-        {
-            frameIdx = 0;
-        }
-
-        // draw bvh skeleton
-        Dictionary<string, Vector3> bvhPos = new Dictionary<string, Vector3>();
-        foreach (string bname in currFrame.Keys)
-        {
-            if (bname == "pos")
+            // getKeyFrame 獲取當前幀在世界座標下的旋轉四元數
+            Dictionary<string, Quaternion> currFrame = bp.getKeyFrame(frameIdx);//frameIdx 2871
+            if (frameIdx < bp.frames - 1)
             {
-                bvhPos.Add(bp.root.name, new Vector3(currFrame["pos"].x, currFrame["pos"].y, currFrame["pos"].z));
+                frameIdx++;
             }
             else
             {
-                if (bvhHireachy.ContainsKey(bname) && bname != bp.root.name)
+                frameIdx = 0;
+            }
+
+            // draw bvh skeleton
+            Dictionary<string, Vector3> bvhPos = new Dictionary<string, Vector3>();
+            foreach (string bname in currFrame.Keys)
+            {
+                if (bname == "pos")
                 {
-                    Vector3 curpos = bvhPos[bvhHireachy[bname]] + currFrame[bvhHireachy[bname]] * bvhOffset[bname];
-                    bvhPos.Add(bname, curpos);
+                    bvhPos.Add(bp.root.name, new Vector3(currFrame["pos"].x, currFrame["pos"].y, currFrame["pos"].z));
+                }
+                else
+                {
+                    if (bvhHireachy.ContainsKey(bname) && bname != bp.root.name)
+                    {
+                        Vector3 curpos = bvhPos[bvhHireachy[bname]] + currFrame[bvhHireachy[bname]] * bvhOffset[bname];
+                        bvhPos.Add(bname, curpos);
+                    }
                 }
             }
+
+            // compute scaleRatio
+            Vector3 modelHipsPos = anim.GetBoneTransform(HumanBodyBones.Hips).position;
+            Vector3 modelRightUpLegPos = anim.GetBoneTransform(HumanBodyBones.RightUpperLeg).position;
+            Vector3 bvhHipsPos = bvhPos[bp.root.name];
+            Vector3 bvhRightUpLegPos = bvhPos["RightUpLeg"];
+            scaleRatio = Vector3.Distance(modelRightUpLegPos, modelHipsPos) / Vector3.Distance(bvhRightUpLegPos, bvhHipsPos);
+
+            // anim.GetBoneTransform(HumanBodyBones.Hips).position = bvhPos[bp.root.name] * scaleRatio;
+            ClearLines();
+            DrawModel(bvhPos);
         }
-
-        // compute scaleRatio
-        Vector3 modelHipsPos = anim.GetBoneTransform(HumanBodyBones.Hips).position;
-        Vector3 modelRightUpLegPos = anim.GetBoneTransform(HumanBodyBones.RightUpperLeg).position;
-        Vector3 bvhHipsPos = bvhPos[bp.root.name];
-        Vector3 bvhRightUpLegPos = bvhPos["RightUpLeg"];
-        scaleRatio = Vector3.Distance(modelRightUpLegPos, modelHipsPos) / Vector3.Distance(bvhRightUpLegPos, bvhHipsPos);
-
-        anim.GetBoneTransform(HumanBodyBones.Hips).position = bvhPos[bp.root.name] * scaleRatio;
-
-        // T pose transform matrix
-        // if (FirstT)
-        // {
-        //     Transform currBone = anim.GetBoneTransform();
-        //     currBone.rotation = (currFrame[currBone.name] * Quaternion.Inverse(bvhT[currBone.name]) * unityT[currBone.name]);
-        // }
-        // else
-        // {
-        //     Transform currBone = anim.GetBoneTransform();
-        //     currBone.rotation = (currFrame[currBone.name] * unityT[currBone.name]);
-        // }
-        ClearLines();
-        DrawModel(bvhPos);
     }
 }

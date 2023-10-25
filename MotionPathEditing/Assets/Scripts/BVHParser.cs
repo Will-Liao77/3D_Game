@@ -604,6 +604,8 @@ namespace Assets.Scripts
             Dictionary<string, Vector3> offset = new Dictionary<string, Vector3>();
             foreach (BVHBone bb in boneList)
             {
+                //獲得骨骼未進行任何改變的值
+                //Debug.Log(bb.name + " " + bb.offsetX + " " + bb.offsetY + " " + bb.offsetZ);
                 offset.Add(bb.name, new Vector3(bb.offsetX * ratio, bb.offsetY * ratio, bb.offsetZ * ratio));
             }
             return offset;
