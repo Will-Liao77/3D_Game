@@ -47,12 +47,12 @@ public class BVHDriver : MonoBehaviour
             frameRate = 1f / bp.frameTime;
 
             UnityEngine.Application.targetFrameRate = (Int16)frameRate;
-            bvhT = bp.getKeyFrame(0);
+            // bvhT = bp.getKeyFrame(0);
             bvhOffset = bp.getOffset(1.0f);
             bvhHireachy = bp.getHierachy();
 
             anim = targetAvatar.GetComponent<Animator>();
-            unityT = new Dictionary<HumanBodyBones, Quaternion>();
+            // unityT = new Dictionary<HumanBodyBones, Quaternion>();
 
             frameIdx = 0;
 
@@ -63,10 +63,10 @@ public class BVHDriver : MonoBehaviour
         throw new ArgumentException("Failed to Load BVH File");
     }
 
-    private Dictionary<string, Quaternion> bvhT;
+    // private Dictionary<string, Quaternion> bvhT;
     private Dictionary<string, Vector3> bvhOffset;
     private Dictionary<string, string> bvhHireachy;
-    private Dictionary<HumanBodyBones, Quaternion> unityT;
+    // private Dictionary<HumanBodyBones, Quaternion> unityT;
 
     private int frameIdx;
     private float scaleRatio = 0.0f;
@@ -167,7 +167,8 @@ public class BVHDriver : MonoBehaviour
             Vector3 bvhRightUpLegPos = bvhPos["RightUpLeg"];
             scaleRatio = Vector3.Distance(modelRightUpLegPos, modelHipsPos) / Vector3.Distance(bvhRightUpLegPos, bvhHipsPos);
 
-            // anim.GetBoneTransform(HumanBodyBones.Hips).position = bvhPos[bp.root.name] * scaleRatio;
+            anim.GetBoneTransform(HumanBodyBones.Hips).position = new Vector3(bvhPos[bp.root.name].x + 50.0f, bvhPos[bp.root.name].y, bvhPos[bp.root.name].z) * scaleRatio;
+
             ClearLines();
             DrawModel(bvhPos);
         }

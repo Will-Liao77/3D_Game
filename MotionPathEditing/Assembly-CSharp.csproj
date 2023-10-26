@@ -724,35 +724,17 @@
     <Reference Include="System.Xml.Serialization">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.9f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Timeline">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.EditorCoroutines.Editor">
         <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.EditorCoroutines.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
+    <Reference Include="Unity.Burst.Editor">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Performance.Profile-Analyzer.Editor">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.Performance.Profile-Analyzer.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TestTools.CodeCoverage.Editor">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
+    <Reference Include="Unity.Burst">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
         <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VisualScripting.State.Editor">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
         <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
@@ -763,17 +745,14 @@
     <Reference Include="Unity.VisualStudio.Editor">
         <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.TextMeshPro">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+    <Reference Include="UnityEditor.UI">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Core">
         <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+    <Reference Include="UnityEngine.UI">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Core.Editor">
         <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
@@ -781,36 +760,56 @@
     <Reference Include="Unity.Rider.Editor">
         <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualScripting.State">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.VSCode.Editor">
-        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VisualScripting.Flow">
         <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Flow.Editor">
         <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Performance.Profile-Analyzer.Editor">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.Performance.Profile-Analyzer.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TestTools.CodeCoverage.Editor">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="SplineEditor">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\SplineEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.State.Editor">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro.Editor">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.State">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VSCode.Editor">
+        <HintPath>G:\3D_Game\MotionPathEditing\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Dreamteck.Splines.csproj">
-      <Project>{d4634ad5-1407-0f6d-fed4-bb27a3aec291}</Project>
-      <Name>Dreamteck.Splines</Name>
-    </ProjectReference>
-    <ProjectReference Include="Dreamteck.Splines.Editor.csproj">
-      <Project>{226d3236-5cb5-1594-8551-8f395b625073}</Project>
-      <Name>Dreamteck.Splines.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Dreamteck.Utilities.csproj">
-      <Project>{5a4103b0-e5cb-89a8-dfb2-f2755002e582}</Project>
-      <Name>Dreamteck.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="Dreamteck.Utilities.Editor.csproj">
-      <Project>{65eee556-df8f-158e-0ccc-33518bc7ba22}</Project>
-      <Name>Dreamteck.Utilities.Editor</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
