@@ -36,6 +36,9 @@ public class BVHDriver : MonoBehaviour
     }
 
     // This function doesn't call any Unity API functions and should be safe to call from another thread
+    private Dictionary<string, Quaternion> bvhT;
+    private Dictionary<string, Quaternion> unityT;
+
     public void parseFile()
     {
         // string filename = "G:/3D_Game/MotionPathEditing/bvh_sample_files/walk_loop.bvh";
@@ -47,11 +50,13 @@ public class BVHDriver : MonoBehaviour
             frameRate = 1f / bp.frameTime;
 
             UnityEngine.Application.targetFrameRate = (Int16)frameRate;
-            // bvhT = bp.getKeyFrame(0);
+            bvhT = bp.getKeyFrame(0);
             bvhOffset = bp.getOffset(1.0f);
             bvhHireachy = bp.getHierachy();
 
             anim = targetAvatar.GetComponent<Animator>();
+            unityT = new Dictionary<string, Quaternion>();
+            GetModelQuatertion();
             // unityT = new Dictionary<HumanBodyBones, Quaternion>();
 
             frameIdx = 0;
@@ -66,8 +71,6 @@ public class BVHDriver : MonoBehaviour
     // private Dictionary<string, Quaternion> bvhT;
     private Dictionary<string, Vector3> bvhOffset;
     private Dictionary<string, string> bvhHireachy;
-    // private Dictionary<HumanBodyBones, Quaternion> unityT;
-
     private int frameIdx;
     private float scaleRatio = 0.0f;
 
@@ -115,6 +118,87 @@ public class BVHDriver : MonoBehaviour
         }
     }
 
+    private void SetModelQuatertion(Dictionary<string, Quaternion> unityRot)
+    {
+        GameObject model = GameObject.Find("unitychan (1)");
+        if (model == null)
+        {
+            Debug.Log("Can't find model");
+            return;
+        }
+
+        Debug.Log("Find model");
+        foreach (Transform joint in model.GetComponentsInChildren<Transform>())
+        {
+            if (joint != model)
+            {
+                string jointName = joint.name;
+
+                if (jointName.Contains("Character1_"))
+                {
+                    jointName = jointName.Replace("Character1_", "");
+                    // Debug.Log(jointName);
+                    if (bvhHireachy.ContainsKey(jointName))
+                    {
+                        joint.rotation = unityRot[jointName];
+
+                        // Debug.Log(jointName);
+                        // Debug.Log("Quternion: " + rot);
+                    }
+                    // else if (jointName == "Hips")
+                    // {
+                    //     joint.rotation = unityRot[jointName];
+
+                    //     // Debug.Log(jointName);
+                    //     // Debug.Log("Quternion: " + rot);
+                    // }
+                }
+            }
+        }
+    }
+
+    private void GetModelQuatertion()
+    {
+        GameObject model = GameObject.Find("unitychan (1)");
+        if (model == null)
+        {
+            Debug.Log("Can't find model");
+            return;
+        }
+
+        Debug.Log("Find model");
+        foreach (Transform joint in model.GetComponentsInChildren<Transform>())
+        {
+            if (joint != model)
+            {
+                string jointName = joint.name;
+
+                if (jointName.Contains("Character1_"))
+                {
+                    jointName = jointName.Replace("Character1_", "");
+                    // Debug.Log(jointName);
+                    if (bvhHireachy.ContainsKey(jointName))
+                    {
+                        Quaternion rot = joint.rotation;
+
+                        // Debug.Log(jointName);
+                        // Debug.Log("Quternion: " + rot);
+                        unityT.Add(jointName, rot);
+
+                    }
+                    else if (jointName == "Hips")
+                    {
+                        Quaternion rot = joint.rotation;
+
+                        // Debug.Log(jointName);
+                        // Debug.Log("Quternion: " + rot);
+                        unityT.Add(jointName, rot);
+                    }
+                }
+            }
+        }
+    }
+
     private void Start()
     {
         // parseFile();
@@ -144,18 +228,26 @@ public class BVHDriver : MonoBehaviour
 
             // draw bvh skeleton
             Dictionary<string, Vector3> bvhPos = new Dictionary<string, Vector3>();
+            Dictionary<string, Quaternion> unityRot = new Dictionary<string, Quaternion>();
             foreach (string bname in currFrame.Keys)
             {
                 if (bname == "pos")
                 {
                     bvhPos.Add(bp.root.name, new Vector3(currFrame["pos"].x, currFrame["pos"].y, currFrame["pos"].z));
                 }
+                // else if (bname == "Hips")
+                // {
+                //     unityT.Add(bp.root.name, currFrame["Hips"]);
+                // }
                 else
                 {
                     if (bvhHireachy.ContainsKey(bname) && bname != bp.root.name)
                     {
                         Vector3 curpos = bvhPos[bvhHireachy[bname]] + currFrame[bvhHireachy[bname]] * bvhOffset[bname];
+                        Quaternion unityCurRot = unityT[bname] * currFrame[bvhHireachy[bname]];
+                        // Debug.Log("bname: " + bname);
                         bvhPos.Add(bname, curpos);
+                        unityRot.Add(bname, unityCurRot);
                     }
                 }
             }
@@ -171,6 +263,7 @@ public class BVHDriver : MonoBehaviour
 
             ClearLines();
             DrawModel(bvhPos);
+            SetModelQuatertion(unityRot);
         }
     }
 }

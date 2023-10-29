@@ -684,6 +684,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 100008, guid: 0774f26ec03a2a940bf7f5545d9d01f1, type: 3}
+      propertyPath: m_Name
+      value: Character1_LeftUpArm
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: 0774f26ec03a2a940bf7f5545d9d01f1, type: 3}
+      propertyPath: m_Name
+      value: Character1_LeftLowArm
+      objectReference: {fileID: 0}
+    - target: {fileID: 100056, guid: 0774f26ec03a2a940bf7f5545d9d01f1, type: 3}
+      propertyPath: m_Name
+      value: Character1_LeftLowLeg
+      objectReference: {fileID: 0}
+    - target: {fileID: 100058, guid: 0774f26ec03a2a940bf7f5545d9d01f1, type: 3}
+      propertyPath: m_Name
+      value: Character1_LeftCollar
+      objectReference: {fileID: 0}
+    - target: {fileID: 100068, guid: 0774f26ec03a2a940bf7f5545d9d01f1, type: 3}
+      propertyPath: m_Name
+      value: Character1_RightUpArm
+      objectReference: {fileID: 0}
+    - target: {fileID: 100072, guid: 0774f26ec03a2a940bf7f5545d9d01f1, type: 3}
+      propertyPath: m_Name
+      value: Character1_RightLowArm
+      objectReference: {fileID: 0}
+    - target: {fileID: 100116, guid: 0774f26ec03a2a940bf7f5545d9d01f1, type: 3}
+      propertyPath: m_Name
+      value: Character1_RightLowLeg
+      objectReference: {fileID: 0}
+    - target: {fileID: 100118, guid: 0774f26ec03a2a940bf7f5545d9d01f1, type: 3}
+      propertyPath: m_Name
+      value: Character1_RightCollar
+      objectReference: {fileID: 0}
+    - target: {fileID: 100128, guid: 0774f26ec03a2a940bf7f5545d9d01f1, type: 3}
+      propertyPath: m_Name
+      value: Character1_Chest
+      objectReference: {fileID: 0}
     - target: {fileID: 100326, guid: 0774f26ec03a2a940bf7f5545d9d01f1, type: 3}
       propertyPath: m_Name
       value: unitychan (1)
