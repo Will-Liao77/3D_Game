@@ -141,6 +141,7 @@ public class BVHDriver : MonoBehaviour
                     if (bvhHireachy.ContainsKey(jointName))
                     {
                         joint.rotation = unityRot[jointName];
+                        // joint.Rotate(unityRot[jointName]);
                     }
                 }
             }
@@ -229,10 +230,10 @@ public class BVHDriver : MonoBehaviour
                 {
                     if (bvhHireachy.ContainsKey(bname) && bname != bp.root.name)
                     {
-                        Vector3 curpos = bvhPos[bvhHireachy[bname]] + currFrame[bvhHireachy[bname]] * bvhOffset[bname];
-                        // Quaternion unityCurRot = unityT[bname] * currFrame[bvhHireachy[bname]];
+                        Vector3 curpos = bvhPos[bvhHireachy[bname]] + currFrame[bvhHireachy[bname]] * bvhOffset[bname]; // T3, T4
                         Quaternion unityCurRot = currFrame[bvhHireachy[bname]] * unityT[bvhHireachy[bname]];
-                        // Debug.Log("bname: " + bname);
+                        // bvh 沒有T2所以T3等同T4因此unityModel位置等於UnityT * T3
+                        // Vector3 unityCurRot = unityT[bvhHireachy[bname]] * curpos; // T5
                         bvhPos.Add(bname, curpos);
                         unityRot.Add(bname, unityCurRot);
                     }
