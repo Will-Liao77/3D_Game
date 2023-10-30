@@ -141,17 +141,7 @@ public class BVHDriver : MonoBehaviour
                     if (bvhHireachy.ContainsKey(jointName))
                     {
                         joint.rotation = unityRot[jointName];
-
-                        // Debug.Log(jointName);
-                        // Debug.Log("Quternion: " + rot);
                     }
-                    // else if (jointName == "Hips")
-                    // {
-                    //     joint.rotation = unityRot[jointName];
-
-                    //     // Debug.Log(jointName);
-                    //     // Debug.Log("Quternion: " + rot);
-                    // }
                 }
             }
         }
@@ -235,16 +225,13 @@ public class BVHDriver : MonoBehaviour
                 {
                     bvhPos.Add(bp.root.name, new Vector3(currFrame["pos"].x, currFrame["pos"].y, currFrame["pos"].z));
                 }
-                // else if (bname == "Hips")
-                // {
-                //     unityT.Add(bp.root.name, currFrame["Hips"]);
-                // }
                 else
                 {
                     if (bvhHireachy.ContainsKey(bname) && bname != bp.root.name)
                     {
                         Vector3 curpos = bvhPos[bvhHireachy[bname]] + currFrame[bvhHireachy[bname]] * bvhOffset[bname];
-                        Quaternion unityCurRot = unityT[bname] * currFrame[bvhHireachy[bname]];
+                        // Quaternion unityCurRot = unityT[bname] * currFrame[bvhHireachy[bname]];
+                        Quaternion unityCurRot = currFrame[bvhHireachy[bname]] * unityT[bvhHireachy[bname]];
                         // Debug.Log("bname: " + bname);
                         bvhPos.Add(bname, curpos);
                         unityRot.Add(bname, unityCurRot);
@@ -259,7 +246,7 @@ public class BVHDriver : MonoBehaviour
             Vector3 bvhRightUpLegPos = bvhPos["RightUpLeg"];
             scaleRatio = Vector3.Distance(modelRightUpLegPos, modelHipsPos) / Vector3.Distance(bvhRightUpLegPos, bvhHipsPos);
 
-            anim.GetBoneTransform(HumanBodyBones.Hips).position = new Vector3(bvhPos[bp.root.name].x + 50.0f, bvhPos[bp.root.name].y, bvhPos[bp.root.name].z) * scaleRatio;
+            anim.GetBoneTransform(HumanBodyBones.Hips).position = new Vector3(bvhPos[bp.root.name].x + 150.0f, bvhPos[bp.root.name].y, bvhPos[bp.root.name].z) * scaleRatio;
 
             ClearLines();
             DrawModel(bvhPos);
