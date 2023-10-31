@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts;
 using System.Windows.Forms;
+using burningmime.curves;
 
 public class BVHDriver : MonoBehaviour
 {
@@ -57,6 +58,7 @@ public class BVHDriver : MonoBehaviour
             anim = targetAvatar.GetComponent<Animator>();
             unityT = new Dictionary<string, Quaternion>();
             GetModelQuatertion();
+            VisualizePoint();
             // unityT = new Dictionary<HumanBodyBones, Quaternion>();
 
             frameIdx = 0;
@@ -190,6 +192,30 @@ public class BVHDriver : MonoBehaviour
         }
     }
 
+    private int AmountKeyFramePoint()
+    {
+        int amount = 0;
+        amount = bp.frames / 10;
+        return amount;
+    }
+
+    private void VisualizePoint()
+    {
+        int pointCount = AmountKeyFramePoint();
+        // z-axis gap
+        float gap = 0.0f;
+        for (int index = 0; index < pointCount; index++)
+        {
+            GameObject point = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            // GameObject point = new GameObject("p" + index);
+            point.name = "p" + (index + 1);
+            point.tag = "point";
+            point.transform.position = new Vector3(0.0f, 0.0f, gap);
+            point.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            gap += 1.0f;
+        }
+    }
+
     private void Start()
     {
         // parseFile();
@@ -206,6 +232,7 @@ public class BVHDriver : MonoBehaviour
     {
         if (isBVHLoaded)
         {
+            print("frameIdx: " + frameIdx + " bp.frames: " + bp.frames);
             // getKeyFrame 獲取當前幀在世界座標下的旋轉四元數
             Dictionary<string, Quaternion> currFrame = bp.getKeyFrame(frameIdx);//frameIdx 2871
             if (frameIdx < bp.frames - 1)
