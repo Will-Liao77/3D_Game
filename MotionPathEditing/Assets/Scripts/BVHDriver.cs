@@ -6,6 +6,9 @@ using UnityEngine;
 using Assets.Scripts;
 using System.Windows.Forms;
 using burningmime.curves;
+using UnityEditor;
+using System.Threading;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 public class BVHDriver : MonoBehaviour
 {
@@ -16,14 +19,27 @@ public class BVHDriver : MonoBehaviour
     public float frameRate = 60.0f;
     [Tooltip("If the BVH first frame is T(if not,make sure the defined skeleton is T).")]
     public bool FirstT;
+    public MonoScript mouseEventScript;
     private BVHParser bp = null;
     private Animator anim;
     private bool isBVHLoaded = false;
+    private Dictionary<string, Quaternion> bvhT;
+    private Dictionary<string, Quaternion> unityT = new Dictionary<string, Quaternion>();
+    private Dictionary<string, Vector3> bvhOffset;
+    private Dictionary<string, string> bvhHireachy;
+    private int frameIdx;
+    private float scaleRatio = 0.0f;
+    private List<Vector3> bvhRootPos = new List<Vector3>();
+    private List<Vector3> bvhRootRot = new List<Vector3>();
+    private List<burningmime.curves.CubicBezier> curves = new List<burningmime.curves.CubicBezier>();
+    private List<GameObject> controlPoints = new List<GameObject>();
+
 
     public string OpenFileByDll()
     {
         OpenFileDialog dialog = new OpenFileDialog();
         dialog.Filter = "BVH Files (*.bvh)|*.bvh";
+
 
         dialog.InitialDirectory = @"C:\";
         if (dialog.ShowDialog() == DialogResult.OK)
@@ -37,9 +53,6 @@ public class BVHDriver : MonoBehaviour
     }
 
     // This function doesn't call any Unity API functions and should be safe to call from another thread
-    private Dictionary<string, Quaternion> bvhT;
-    private Dictionary<string, Quaternion> unityT;
-
     public void parseFile()
     {
         // string filename = "G:/3D_Game/MotionPathEditing/bvh_sample_files/walk_loop.bvh";
@@ -56,10 +69,11 @@ public class BVHDriver : MonoBehaviour
             bvhHireachy = bp.getHierachy();
 
             anim = targetAvatar.GetComponent<Animator>();
-            unityT = new Dictionary<string, Quaternion>();
             GetModelQuatertion();
-            VisualizePoint();
+            GetRootBonePosAndRot();
+            // VisualizePoint();
             // unityT = new Dictionary<HumanBodyBones, Quaternion>();
+
 
             frameIdx = 0;
 
@@ -71,11 +85,6 @@ public class BVHDriver : MonoBehaviour
     }
 
     // private Dictionary<string, Quaternion> bvhT;
-    private Dictionary<string, Vector3> bvhOffset;
-    private Dictionary<string, string> bvhHireachy;
-    private int frameIdx;
-    private float scaleRatio = 0.0f;
-
     private void ClearLines()
     {
         GameObject[] lines = GameObject.FindGameObjectsWithTag("line");
@@ -199,20 +208,95 @@ public class BVHDriver : MonoBehaviour
         return amount;
     }
 
-    private void VisualizePoint()
+    private void CreateObjPoint(int pointCount)
     {
-        int pointCount = AmountKeyFramePoint();
-        // z-axis gap
-        float gap = 0.0f;
+        // z - axis gap
+        // float gap = 0.0f;
         for (int index = 0; index < pointCount; index++)
         {
             GameObject point = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             // GameObject point = new GameObject("p" + index);
-            point.name = "p" + (index + 1);
+            point.name = "Cp" + (index + 1);
             point.tag = "point";
-            point.transform.position = new Vector3(0.0f, 0.0f, gap);
+            point.SetActive(true);
+            point.AddComponent(mouseEventScript.GetClass());
+            // point.transform.position = new Vector3(0.0f, 0.0f, gap);
             point.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-            gap += 1.0f;
+            controlPoints.Add(point);
+
+            // Debug.Log("index: " + (index + 1));
+            // Debug.Log(pointCount);
+            if ((index + 1) == (pointCount + 1))
+            {
+                controlPoints[index - 1].transform.parent = GameObject.FindGameObjectWithTag("point").transform;
+            }
+            else if (controlPoints.Count > 1)
+            {
+                controlPoints[index - 1].transform.parent = GameObject.FindGameObjectWithTag("point").transform;
+            }
+            // gap += 1.0f;
+        }
+    }
+
+    private void GetRootBonePosAndRot()
+    {
+        int frameNum = bp.frames;
+
+        BVHParser.BVHBone.BVHChannel[] channels = bp.root.channels;
+        bvhRootPos.Clear();
+        bvhRootRot.Clear();
+
+        for (int i = 0; i < frameNum; i++)
+        {
+            Vector3 pos = new Vector3(channels[0].values[i], channels[1].values[i], channels[2].values[i]);
+            Vector3 rot = new Vector3(channels[5].values[i], channels[3].values[i], channels[4].values[i]);
+            bvhRootPos.Add(pos);
+            bvhRootRot.Add(rot);
+        }
+        curves.Clear();
+        curves.AddRange(CurveFit.Fit(bvhRootPos, 2.0f));
+        VisualizeControlPoint();
+        //DrawMultiCurve();
+    }
+
+    private void VisualizeControlPoint()
+    {
+        int maxControlPoint = (curves.Count * 4 - (curves.Count - 1));
+        CreateObjPoint(maxControlPoint);
+
+        // if (controlPoints.Count < curves.Count)
+        // {
+        //     for (int i = 0; i < maxControlPoint; i++)
+        //     {
+        //         if (i > 1)
+        //         {
+        //             GameObject parent = GameObject.FindGameObjectWithTag("point");
+        //             if (parent != null)
+        //             {
+        //                 Debug.Log("HIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+        //                 controlPoints[i - 1].transform.parent = parent.transform;
+        //             }
+        //         }
+        //     }
+        // }
+        // Debug.Log(controlPoints.Count);
+        // Debug.Log(maxControlPoint);
+        for (int i = 0; i < controlPoints.Count; i += 3)
+        {
+            int offset = 0;
+            if (i / 4 > 0) offset = 1;
+            int curveIndex = i == 0 ? 0 : (i - 1) / 3;
+            // Debug.Log("i: " + i);
+            // Debug.Log("offset: " + offset);
+            // Debug.Log("curveIndex: " + curveIndex);
+            controlPoints[i + 1 - offset].transform.position = curves[curveIndex].p1;
+            controlPoints[i + 2 - offset].transform.position = curves[curveIndex].p2;
+            controlPoints[i + 3 - offset].transform.position = curves[curveIndex].p3;
+            if (i == 0)
+            {
+                controlPoints[i].transform.position = curves[curveIndex].p0;
+                i++;
+            }
         }
     }
 
@@ -232,7 +316,7 @@ public class BVHDriver : MonoBehaviour
     {
         if (isBVHLoaded)
         {
-            print("frameIdx: " + frameIdx + " bp.frames: " + bp.frames);
+            // print("frameIdx: " + frameIdx + " bp.frames: " + bp.frames);
             // getKeyFrame 獲取當前幀在世界座標下的旋轉四元數
             Dictionary<string, Quaternion> currFrame = bp.getKeyFrame(frameIdx);//frameIdx 2871
             if (frameIdx < bp.frames - 1)

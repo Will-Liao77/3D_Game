@@ -143,6 +143,7 @@ MonoBehaviour:
   targetAvatar: {fileID: 23208486}
   frameRate: 0
   FirstT: 0
+  mouseEventScript: {fileID: 11500000, guid: aa08e081042b55044aa819d3af7eb29a, type: 3}
 --- !u!95 &23208486 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: 0774f26ec03a2a940bf7f5545d9d01f1, type: 3}
@@ -906,7 +907,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 507, y: 176}
+  m_AnchoredPosition: {x: 720, y: 258}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1788930910
