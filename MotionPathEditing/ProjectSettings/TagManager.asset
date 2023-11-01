@@ -4,10 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - line
-  - sphere
   - controlPoint
   - controlPointLine
+  - line1
+  - sphere1
+  - line2
+  - sphere2
   layers:
   - Default
   - TransparentFX
