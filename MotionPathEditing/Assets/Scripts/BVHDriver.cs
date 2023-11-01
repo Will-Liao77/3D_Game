@@ -213,6 +213,7 @@ public class BVHDriver : MonoBehaviour
 
     }
 
+    // for unity chan animation
     private void SetModelQuatertion(Dictionary<string, Quaternion> unityRot)
     {
         GameObject model = GameObject.Find("unitychan (1)");
@@ -513,7 +514,7 @@ public class BVHDriver : MonoBehaviour
                 // Debug.Log(bname);
                 if (bname == "pos")
                 {
-                    bvhPos.Add(bp2.root.name, new Vector3(currFrame["pos"].x, currFrame["pos"].y, currFrame["pos"].z));
+                    bvhPos.Add(bp2.root.name, new Vector3(currFrame["pos"].x - 50.0f, currFrame["pos"].y, currFrame["pos"].z));
                 }
                 else
                 {
