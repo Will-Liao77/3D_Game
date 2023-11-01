@@ -33,6 +33,8 @@ public class BVHDriver : MonoBehaviour
     private List<Vector3> bvhRootRot = new List<Vector3>();
     private List<burningmime.curves.CubicBezier> curves = new List<burningmime.curves.CubicBezier>();
     private List<GameObject> controlPoints = new List<GameObject>();
+    private List<GameObject> controlPointsLine = new List<GameObject>();
+
 
 
     public string OpenFileByDll()
@@ -138,7 +140,28 @@ public class BVHDriver : MonoBehaviour
             return;
         }
 
-        Debug.Log("Find model");
+        // foreach (Transform joint in model.GetComponentsInChildren<Transform>())
+        // {
+        //     if (joint != model)
+        //     {
+        //         string jointName = joint.name;
+
+        //         if (jointName.Contains("Character1_"))
+        //         {
+        //             jointName = jointName.Replace("Character1_", "");
+        //             if (jointName == "Spine" || jointName == "Spine1")
+        //             {
+        //                 joint.localRotation = Quaternion.identity;
+        //             }
+        //             // Debug.Log(jointName);
+        //             if (bvhHireachy.ContainsKey(jointName))
+        //             {
+        //                 // joint.rotation = unityRot[jointName];
+        //                 joint.localRotation = unityRot[jointName];
+        //             }
+        //         }
+        //     }
+        // }
         foreach (Transform joint in model.GetComponentsInChildren<Transform>())
         {
             if (joint != model)
@@ -149,10 +172,19 @@ public class BVHDriver : MonoBehaviour
                 {
                     jointName = jointName.Replace("Character1_", "");
                     // Debug.Log(jointName);
-                    if (bvhHireachy.ContainsKey(jointName))
+                    if (jointName == "Spine" || jointName == "Spine1")
                     {
-                        joint.rotation = unityRot[jointName];
-                        // joint.Rotate(unityRot[jointName]);
+                        joint.localRotation = Quaternion.identity;
+                    }
+                    if (jointName == "LeftLowLeg" && bvhHireachy.ContainsKey(jointName))
+                    {
+                        // joint.rotation = unityRot[jointName];
+                        joint.localRotation = unityRot[jointName];
+                    }
+                    if (jointName == "LeftUpLeg" && bvhHireachy.ContainsKey(jointName))
+                    {
+                        // joint.rotation = unityRot[jointName];
+                        joint.localRotation = unityRot[jointName];
                     }
                 }
             }
@@ -179,10 +211,13 @@ public class BVHDriver : MonoBehaviour
                 {
                     jointName = jointName.Replace("Character1_", "");
                     // Debug.Log(jointName);
+                    if (jointName == "Spine" || jointName == "Spine1")
+                    {
+                        continue;
+                    }
                     if (bvhHireachy.ContainsKey(jointName))
                     {
-                        Quaternion rot = joint.rotation;
-
+                        Quaternion rot = joint.localRotation;
                         // Debug.Log(jointName);
                         // Debug.Log("Quternion: " + rot);
                         unityT.Add(jointName, rot);
@@ -190,8 +225,7 @@ public class BVHDriver : MonoBehaviour
                     }
                     else if (jointName == "Hips")
                     {
-                        Quaternion rot = joint.rotation;
-
+                        Quaternion rot = joint.localRotation;
                         // Debug.Log(jointName);
                         // Debug.Log("Quternion: " + rot);
                         unityT.Add(jointName, rot);
@@ -212,28 +246,41 @@ public class BVHDriver : MonoBehaviour
     {
         // z - axis gap
         // float gap = 0.0f;
+        // float ga = 0.0f;
         for (int index = 0; index < pointCount; index++)
         {
             GameObject point = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            // GameObject point = new GameObject("p" + index);
-            point.name = "Cp" + (index + 1);
-            point.tag = "point";
+            // Debug.Log(bvhRootPos[index]);
+            // point.transform.localPosition = bvhRootPos[index];
+            point.name = "Cp" + (index);
+            point.tag = "controlPoint";
             point.SetActive(true);
             point.AddComponent(mouseEventScript.GetClass());
-            // point.transform.position = new Vector3(0.0f, 0.0f, gap);
-            point.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            // point.transform.position = new Vector3(ga, 0.0f, gap);
+            point.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
             controlPoints.Add(point);
+
+            GameObject lineObj = new GameObject("controlPointLine" + index);
+            lineObj.tag = "controlPointLine";
+            controlPointsLine.Add(lineObj);
 
             // Debug.Log("index: " + (index + 1));
             // Debug.Log(pointCount);
-            if ((index + 1) == (pointCount + 1))
+            if (index > 0)
             {
-                controlPoints[index - 1].transform.parent = GameObject.FindGameObjectWithTag("point").transform;
+                controlPoints[index - 1].transform.parent = GameObject.FindGameObjectWithTag("controlPoint").transform;
+                controlPoints[index - 1].transform.position = bvhRootPos[index - 1];
+                controlPointsLine[index - 1].transform.parent = GameObject.FindGameObjectWithTag("controlPointLine").transform;
+
             }
-            else if (controlPoints.Count > 1)
+            if (index == (pointCount - 1))
             {
-                controlPoints[index - 1].transform.parent = GameObject.FindGameObjectWithTag("point").transform;
+                controlPoints[index].transform.parent = GameObject.FindGameObjectWithTag("controlPoint").transform;
+                controlPoints[index].transform.position = bvhRootPos[index];
+                controlPointsLine[index].transform.parent = GameObject.FindGameObjectWithTag("controlPointLine").transform;
+
             }
+            // ga += 1.0f;
             // gap += 1.0f;
         }
     }
@@ -248,13 +295,17 @@ public class BVHDriver : MonoBehaviour
 
         for (int i = 0; i < frameNum; i++)
         {
-            Vector3 pos = new Vector3(channels[0].values[i], channels[1].values[i], channels[2].values[i]);
-            Vector3 rot = new Vector3(channels[5].values[i], channels[3].values[i], channels[4].values[i]);
+            // Vector3 pos = new Vector3(-channels[0].values[i], channels[2].values[i], -channels[1].values[i]);
+            // Vector3 rot = new Vector3(channels[3].values[i], channels[4].values[i], channels[5].values[i]);
+            // Debug.Log("channels[0]: " + channels[0].values[i] + "channes[2]: " + channels[2].values[i]);
+            Vector3 pos = new Vector3(channels[0].values[i], 0, channels[2].values[i]);
+            Vector3 rot = new Vector3(channels[3].values[i], channels[4].values[i], channels[5].values[i]);
             bvhRootPos.Add(pos);
             bvhRootRot.Add(rot);
         }
         curves.Clear();
         curves.AddRange(CurveFit.Fit(bvhRootPos, 2.0f));
+        // Debug.Log(bvhRootPos[0] + " " + bvhRootPos[1]);
         VisualizeControlPoint();
         //DrawMultiCurve();
     }
@@ -263,53 +314,28 @@ public class BVHDriver : MonoBehaviour
     {
         int maxControlPoint = (curves.Count * 4 - (curves.Count - 1));
         CreateObjPoint(maxControlPoint);
-
-        // if (controlPoints.Count < curves.Count)
-        // {
-        //     for (int i = 0; i < maxControlPoint; i++)
-        //     {
-        //         if (i > 1)
-        //         {
-        //             GameObject parent = GameObject.FindGameObjectWithTag("point");
-        //             if (parent != null)
-        //             {
-        //                 Debug.Log("HIIIIIIIIIIIIIIIIIIIIIIIIIIII");
-        //                 controlPoints[i - 1].transform.parent = parent.transform;
-        //             }
-        //         }
-        //     }
-        // }
         // Debug.Log(controlPoints.Count);
         // Debug.Log(maxControlPoint);
-        for (int i = 0; i < controlPoints.Count; i += 3)
-        {
-            int offset = 0;
-            if (i / 4 > 0) offset = 1;
-            int curveIndex = i == 0 ? 0 : (i - 1) / 3;
-            // Debug.Log("i: " + i);
-            // Debug.Log("offset: " + offset);
-            // Debug.Log("curveIndex: " + curveIndex);
-            controlPoints[i + 1 - offset].transform.position = curves[curveIndex].p1;
-            controlPoints[i + 2 - offset].transform.position = curves[curveIndex].p2;
-            controlPoints[i + 3 - offset].transform.position = curves[curveIndex].p3;
-            if (i == 0)
-            {
-                controlPoints[i].transform.position = curves[curveIndex].p0;
-                i++;
-            }
-        }
+        // for (int i = 0; i < controlPoints.Count; i += 3)
+        // {
+        //     int offset = 0;
+        //     if (i / 4 > 0) offset = 1;
+        //     int curveIndex = i == 0 ? 0 : (i - 1) / 3;
+
+        //     controlPoints[i + 1 - offset].transform.position = curves[curveIndex].p1;
+        //     controlPoints[i + 2 - offset].transform.position = curves[curveIndex].p2;
+        //     controlPoints[i + 3 - offset].transform.position = curves[curveIndex].p3;
+        //     if (i == 0)
+        //     {
+        //         controlPoints[i].transform.position = curves[curveIndex].p0;
+        //         i++;
+        //     }
+        // }
     }
 
     private void Start()
     {
-        // parseFile();
-        // UnityEngine.Application.targetFrameRate = (Int16)frameRate;
-        // bvhT = bp.getKeyFrame(0);
-        // bvhOffset = bp.getOffset(1.0f);
-        // bvhHireachy = bp.getHierachy();
-        // anim = targetAvatar.GetComponent<Animator>();
-        // unityT = new Dictionary<HumanBodyBones, Quaternion>();
-        // frameIdx = 0;
+
     }
 
     private void Update()
@@ -317,7 +343,7 @@ public class BVHDriver : MonoBehaviour
         if (isBVHLoaded)
         {
             // print("frameIdx: " + frameIdx + " bp.frames: " + bp.frames);
-            // getKeyFrame 獲取當前幀在世界座標下的旋轉四元數
+            // getKeyFrame 獲取當前幀在本地座標下的旋轉四元數
             Dictionary<string, Quaternion> currFrame = bp.getKeyFrame(frameIdx);//frameIdx 2871
             if (frameIdx < bp.frames - 1)
             {
@@ -342,15 +368,16 @@ public class BVHDriver : MonoBehaviour
                     if (bvhHireachy.ContainsKey(bname) && bname != bp.root.name)
                     {
                         Vector3 curpos = bvhPos[bvhHireachy[bname]] + currFrame[bvhHireachy[bname]] * bvhOffset[bname]; // T3, T4
-                        Quaternion unityCurRot = currFrame[bvhHireachy[bname]] * unityT[bvhHireachy[bname]];
+                        Quaternion unityCurRot = currFrame[bvhHireachy[bname]] * unityT[bname];
                         // bvh 沒有T2所以T3等同T4因此unityModel位置等於UnityT * T3
-                        // Vector3 unityCurRot = unityT[bvhHireachy[bname]] * curpos; // T5
+                        // Quaternion unityCurRot = unityT[bname] * Quaternion.Euler(curpos);// T5
                         bvhPos.Add(bname, curpos);
                         unityRot.Add(bname, unityCurRot);
                     }
                 }
             }
-
+            Quaternion unityRootRot = Quaternion.Euler(new Vector3(bp.root.channels[5].values[frameIdx], bp.root.channels[3].values[frameIdx], bp.root.channels[4].values[frameIdx]));
+            unityRot.Add(bp.root.name, unityRootRot * unityT[bp.root.name]);
             // compute scaleRatio
             Vector3 modelHipsPos = anim.GetBoneTransform(HumanBodyBones.Hips).position;
             Vector3 modelRightUpLegPos = anim.GetBoneTransform(HumanBodyBones.RightUpperLeg).position;
@@ -358,7 +385,7 @@ public class BVHDriver : MonoBehaviour
             Vector3 bvhRightUpLegPos = bvhPos["RightUpLeg"];
             scaleRatio = Vector3.Distance(modelRightUpLegPos, modelHipsPos) / Vector3.Distance(bvhRightUpLegPos, bvhHipsPos);
 
-            anim.GetBoneTransform(HumanBodyBones.Hips).position = new Vector3(bvhPos[bp.root.name].x + 150.0f, bvhPos[bp.root.name].y, bvhPos[bp.root.name].z) * scaleRatio;
+            // anim.GetBoneTransform(HumanBodyBones.Hips).position = new Vector3(bvhPos[bp.root.name].x + 150.0f, bvhPos[bp.root.name].y, bvhPos[bp.root.name].z) * scaleRatio;
 
             ClearLines();
             DrawModel(bvhPos);
