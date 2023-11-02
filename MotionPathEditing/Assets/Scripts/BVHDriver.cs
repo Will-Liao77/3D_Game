@@ -19,7 +19,7 @@ public class BVHDriver : MonoBehaviour
     public float frameRate = 60.0f;
     [Tooltip("If the BVH first frame is T(if not,make sure the defined skeleton is T).")]
     public bool FirstT;
-    public MonoScript mouseEventScript;
+    // public MonoScript mouseEventScript;
     private Animator anim;
 
     // load bvh1
@@ -151,12 +151,18 @@ public class BVHDriver : MonoBehaviour
         {
             Destroy(sphere);
         }
+
+        GameObject hipsPos = GameObject.FindGameObjectWithTag("hipsPos");
+        Destroy(hipsPos);
     }
 
     private void DrawModel(Dictionary<string, Vector3> bvhPos, int n_bvh)
     {
         if (n_bvh == 1)
         {
+            GameObject hipsPos = new GameObject("hipsPos");
+            hipsPos.tag = "hipsPos";
+            hipsPos.transform.position = bvhPos[bp.root.name] * scaleRatio1;
             foreach (string bname in bvhHireachy1.Keys)
             {
                 // 父關節位置 bvhPos[bvhHireachy[bname]], 子關節位置 bvhPos[bname]
@@ -217,6 +223,71 @@ public class BVHDriver : MonoBehaviour
         }
 
     }
+
+    // private void DrawModel(Dictionary<string, Vector3> bvhPos, int n_bvh)
+    // {
+    //     if (n_bvh == 1)
+    //     {
+    //         foreach (string bname in bvhHireachy1.Keys)
+    //         {
+    //             // 父關節位置 bvhPos[bvhHireachy[bname]], 子關節位置 bvhPos[bname]
+
+    //             // draw bvh skeleton in Scene
+    //             Color color = new Color(1.0f, 0.0f, 0.0f);
+    //             Debug.DrawLine(bvhPos[bname] * scaleRatio1, bvhPos[bvhHireachy1[bname]] * scaleRatio1, color);
+
+    //             // draw bvh skeleton in Game
+    //             GameObject lineObj = new GameObject("line");
+    //             lineObj.tag = "line1";
+    //             LineRenderer lineRenderer = lineObj.AddComponent<LineRenderer>();
+    //             Material material = new Material(Shader.Find("Standard"));
+    //             lineRenderer.material = material;
+    //             lineRenderer.sharedMaterial.SetColor("_Color", Color.red);
+    //             // lineRenderer.startColor = Color.red;
+    //             // lineRenderer.endColor = Color.red;
+    //             lineRenderer.startWidth = 0.02f;
+    //             lineRenderer.endWidth = 0.02f;
+    //             lineRenderer.positionCount = 2;
+    //             lineRenderer.SetPosition(0, bvhPos[bname] * scaleRatio1);
+    //             lineRenderer.SetPosition(1, bvhPos[bvhHireachy1[bname]] * scaleRatio1);
+
+    //             GameObject sphereObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+    //             sphereObj.tag = "sphere1";
+    //             sphereObj.transform.position = bvhPos[bname] * scaleRatio1;
+    //             sphereObj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         foreach (string bname in bvhHireachy2.Keys)
+    //         {
+    //             // draw bvh skeleton in Scene
+    //             Color color = new Color(0.0f, 0.0f, 1.0f);
+    //             Debug.DrawLine(bvhPos[bname] * scaleRatio2, bvhPos[bvhHireachy2[bname]] * scaleRatio2, color);
+
+    //             // draw bvh skeleton in Game
+    //             GameObject lineObj = new GameObject("line");
+    //             lineObj.tag = "line2";
+    //             LineRenderer lineRenderer = lineObj.AddComponent<LineRenderer>();
+    //             Material material = new Material(Shader.Find("Standard"));
+    //             lineRenderer.material = material;
+    //             lineRenderer.sharedMaterial.SetColor("_Color", Color.blue);
+    //             // lineRenderer.startColor = Color.blue;
+    //             // lineRenderer.endColor = Color.blue;
+    //             lineRenderer.startWidth = 0.02f;
+    //             lineRenderer.endWidth = 0.02f;
+    //             lineRenderer.positionCount = 2;
+    //             lineRenderer.SetPosition(0, bvhPos[bname] * scaleRatio2);
+    //             lineRenderer.SetPosition(1, bvhPos[bvhHireachy2[bname]] * scaleRatio2);
+
+    //             GameObject sphereObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+    //             sphereObj.tag = "sphere2";
+    //             sphereObj.transform.position = bvhPos[bname] * scaleRatio2;
+    //             sphereObj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+    //         }
+    //     }
+
+    // }
 
     // for unity chan animation
     private void SetModelQuatertion(Dictionary<string, Quaternion> unityRot)
@@ -345,7 +416,7 @@ public class BVHDriver : MonoBehaviour
             point.name = "Cp" + (index);
             point.tag = "controlPoint";
             point.SetActive(true);
-            point.AddComponent(mouseEventScript.GetClass());
+            // point.AddComponent(mouseEventScript.GetClass());
             // point.transform.position = new Vector3(ga, 0.0f, gap);
             point.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             controlPoints.Add(point);
@@ -389,10 +460,10 @@ public class BVHDriver : MonoBehaviour
             // Debug.Log("i: " + i + " pos: " + pos);
         }
         curves.Clear();
-        Debug.Log("bvhRootPos: " + bvhRootPos.Count);
+        // Debug.Log("bvhRootPos: " + bvhRootPos.Count);
         // curves.AddRange(CurveFit.Fit(CurvePreprocess.RdpReduce(bvhRootPos, 5.0f), 0.5f));
         curves.AddRange(CurveFit.Fit(bvhRootPos, 0.5f));
-        Debug.Log("curves: " + curves.Count);
+        // Debug.Log("curves: " + curves.Count);
         VisualizeControlPoint();
         DrawCurves();
     }
@@ -400,15 +471,15 @@ public class BVHDriver : MonoBehaviour
     private void VisualizeControlPoint()
     {
         int maxControlPoint = (curves.Count * 4 - (curves.Count - 1));
-        Debug.Log("maxControlPoint before " + maxControlPoint);
+        // Debug.Log("maxControlPoint before " + maxControlPoint);
         if (bvhRootPos.Count < maxControlPoint)
         {
             maxControlPoint = bvhRootPos.Count;
         }
-        Debug.Log("maxControlPoint after" + maxControlPoint);
+        // Debug.Log("maxControlPoint after" + maxControlPoint);
 
         CreateObjPoint(maxControlPoint);
-        Debug.Log("controlPoints: " + controlPoints.Count);
+        // Debug.Log("controlPoints: " + controlPoints.Count);
         for (int i = 0; i < controlPoints.Count; i += 3)
         {
             int offset = 0;
@@ -475,26 +546,24 @@ public class BVHDriver : MonoBehaviour
     {
 
     }
-
+    bool judge = false;
     private void Update()
     {
         if (isBVHLoaded1)
         {
+
             // getKeyFrame 獲取當前幀在本地座標下的旋轉四元數
             // bvhOffset bvh中所有關節的初始偏移量
-            // int nextFrameIdx1 = frameIdx1 + 1;
-            // bool isLastFrame = false;
-            // if (nextFrameIdx1 < bp.frames - 1)
-            // {
-            //     nextFrameIdx1++;
-            // }
-            // else
-            // {
-            //     isLastFrame = true;
-            //     nextFrameIdx1 = 1;
-            // }
+            int nextFrameIdx1 = frameIdx1 + 1;
+            bool isLastFrame = false;
+            if (nextFrameIdx1 >= bp.frames)
+            {
+                nextFrameIdx1 = 1;
+                isLastFrame = true;
+            }
             Dictionary<string, Quaternion> currFrame = bp.getKeyFrame(frameIdx1);//frameIdx 2871
-            // Dictionary<string, Quaternion> nextFrame = bp.getKeyFrame(nextFrameIdx1);
+            Dictionary<string, Quaternion> nextFrame = bp.getKeyFrame(nextFrameIdx1);
+
             if (frameIdx1 < bp.frames - 1)
             {
                 frameIdx1++;
@@ -503,25 +572,40 @@ public class BVHDriver : MonoBehaviour
             {
                 frameIdx1 = 0;
             }
+            if (nextFrameIdx1 < bp.frames - 1)
+            {
+                nextFrameIdx1++;
+            }
 
             // draw bvh skeleton
             Dictionary<string, Vector3> bvhPos = new Dictionary<string, Vector3>();
             Dictionary<string, Quaternion> unityRot = new Dictionary<string, Quaternion>();
+            Dictionary<string, Vector3> bvhLerp = new Dictionary<string, Vector3>();
+
             foreach (string bname in currFrame.Keys)
             {
                 // Debug.Log(bname);
                 if (bname == "pos")
                 {
                     bvhPos.Add(bp.root.name, new Vector3(currFrame["pos"].x, currFrame["pos"].y, currFrame["pos"].z));
+                    bvhLerp.Add(bp.root.name, new Vector3(nextFrame["pos"].x, nextFrame["pos"].y, nextFrame["pos"].z));
                 }
                 else
                 {
                     if (bvhHireachy1.ContainsKey(bname) && bname != bp.root.name)
                     {
-                        // Quaternion keyFrameLerp = Quaternion.Lerp(currFrame[bvhHireachy1[bname]], nextFrame[bvhHireachy1[bname]], 0.5f);
-                        // Vector3 curpos = bvhPos[bvhHireachy1[bname]] + keyFrameLerp * bvhOffset1[bname];
+                        Quaternion keyFrameLerp = Quaternion.Lerp(currFrame[bvhHireachy1[bname]], nextFrame[bvhHireachy1[bname]], 0.5f);
+                        Vector3 lerpPos = bvhPos[bvhHireachy1[bname]] + keyFrameLerp * bvhOffset1[bname];
                         Vector3 curpos = bvhPos[bvhHireachy1[bname]] + currFrame[bvhHireachy1[bname]] * bvhOffset1[bname];
                         bvhPos.Add(bname, curpos);
+                        if (!isLastFrame)
+                        {
+                            bvhLerp.Add(bname, lerpPos);
+                        }
+                        else
+                        {
+                            bvhLerp.Add(bname, curpos);
+                        }
                     }
                 }
                 // if (bname != "pos")
@@ -551,7 +635,18 @@ public class BVHDriver : MonoBehaviour
             // anim.GetBoneTransform(HumanBodyBones.Hips).position = new Vector3(bvhPos[bp.root.name].x + 150.0f, bvhPos[bp.root.name].y, bvhPos[bp.root.name].z) * scaleRatio;
 
             ClearLines(1);
-            DrawModel(bvhPos, 1);
+            if (!judge)
+            {
+                DrawModel(bvhPos, 1);
+                Debug.Log("bvhPos");
+                judge = true;
+            }
+            else
+            {
+                DrawModel(bvhLerp, 1);
+                Debug.Log("bvhLerp");
+                judge = false;
+            }
             // SetModelQuatertion(unityRot);
         }
         if (isBVHLoaded2)

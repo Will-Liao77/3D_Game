@@ -10,6 +10,7 @@ TagManager:
   - sphere1
   - line2
   - sphere2
+  - hipsPos
   layers:
   - Default
   - TransparentFX
