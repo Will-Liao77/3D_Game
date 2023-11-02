@@ -22,7 +22,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-using VECTOR = UnityEngine.Vector2;
+using VECTOR = UnityEngine.Vector3;
 using FLOAT = System.Single;
 
 // #if SYSTEM_WINDOWS_VECTOR

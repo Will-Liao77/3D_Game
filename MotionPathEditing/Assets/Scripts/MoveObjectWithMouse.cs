@@ -9,14 +9,14 @@ public class MoveObjectWithMouse : MonoBehaviour
     private bool isDragging = false;
     void OnMouseDown()
     {
-        Debug.Log("Mouse Down");
+        // Debug.Log("Mouse Down");
         objMoveOffset = transform.position - GetMouseWorldPos();
         isDragging = true;
     }
 
     void OnMouseUp()
     {
-        Debug.Log("Mouse Up");
+        // Debug.Log("Mouse Up");
         isDragging = false;
     }
 
