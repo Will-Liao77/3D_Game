@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2560
     height: 1397
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Hierarchy
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -618,7 +618,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: -0.23999977, y: 2.4899998, z: 4.3}
     speed: 2
-    m_Value: {x: -0.23999977, y: 2.4899998, z: 4.3}
+    m_Value: {x: -0.10081893, y: 0.96129763, z: -0.111712575}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -666,11 +666,11 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.13197555, y: -0.8679497, z: 0.3275514, w: -0.3494103}
     speed: 2
-    m_Value: {x: -0.13196686, y: -0.8678926, z: 0.32752985, w: -0.34938732}
+    m_Value: {x: 0.046715852, y: -0.9494175, z: 0.17161536, w: 0.25879005}
   m_Size:
     m_Target: 12.124355
     speed: 2
-    m_Value: 12.124355
+    m_Value: 0.58783174
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -757,7 +757,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 98610000
     m_LastClickedID: 24984
-    m_ExpandedIDs: 00000000f65d0000f85d0000fa5d0000fc5d0000fe5d0000
+    m_ExpandedIDs: 00000000f25d0000f45d0000f65d0000f85d0000fa5d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -785,7 +785,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000f65d0000f85d0000fa5d0000fc5d0000fe5d0000
+    m_ExpandedIDs: 00000000f25d0000f45d0000f65d0000f85d0000fa5d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -908,7 +908,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 0
+    m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -976,8 +976,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 485a0000
-      m_LastClickedID: 23112
+      m_SelectedIDs: 2e5a0000
+      m_LastClickedID: 23086
       m_ExpandedIDs: 32fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
