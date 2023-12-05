@@ -1,9 +1,9 @@
 {
   "dependencies": {
     "com.unity.barracuda": {
-      "version": "file:barracuda-release",
+      "version": "file:G:/unity ignore/barracuda-release",
       "depth": 0,
-      "source": "embedded",
+      "source": "local",
       "dependencies": {
         "com.unity.burst": "1.6.0",
         "com.unity.modules.jsonserialize": "1.0.0",

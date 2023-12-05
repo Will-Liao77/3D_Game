@@ -216,44 +216,45 @@ public class VNectModel : MonoBehaviour
         {
             // Line Child Settings
             // Right Arm
-            AddSkeleton(PositionIndex.rShldrBend, PositionIndex.rForearmBend);
-            AddSkeleton(PositionIndex.rForearmBend, PositionIndex.rHand);
-            AddSkeleton(PositionIndex.rHand, PositionIndex.rThumb2);
-            AddSkeleton(PositionIndex.rHand, PositionIndex.rMid1);
+            // AddSkeleton(PositionIndex.rShldrBend, PositionIndex.rForearmBend);
+            // AddSkeleton(PositionIndex.rForearmBend, PositionIndex.rHand);
+            // AddSkeleton(PositionIndex.rHand, PositionIndex.rThumb2);
+            // AddSkeleton(PositionIndex.rHand, PositionIndex.rMid1);
 
             // Left Arm
-            AddSkeleton(PositionIndex.lShldrBend, PositionIndex.lForearmBend);
-            AddSkeleton(PositionIndex.lForearmBend, PositionIndex.lHand);
-            AddSkeleton(PositionIndex.lHand, PositionIndex.lThumb2);
-            AddSkeleton(PositionIndex.lHand, PositionIndex.lMid1);
+            // AddSkeleton(PositionIndex.lShldrBend, PositionIndex.lForearmBend);
+            // AddSkeleton(PositionIndex.lForearmBend, PositionIndex.lHand);
+            // AddSkeleton(PositionIndex.lHand, PositionIndex.lThumb2);
+            // AddSkeleton(PositionIndex.lHand, PositionIndex.lMid1);
 
             // Fase
-            AddSkeleton(PositionIndex.lEar, PositionIndex.Nose);
-            AddSkeleton(PositionIndex.rEar, PositionIndex.Nose);
+            // AddSkeleton(PositionIndex.lEar, PositionIndex.Nose);
+            // AddSkeleton(PositionIndex.rEar, PositionIndex.Nose);
 
             // Right Leg
-            AddSkeleton(PositionIndex.rThighBend, PositionIndex.rShin);
-            AddSkeleton(PositionIndex.rShin, PositionIndex.rFoot);
-            AddSkeleton(PositionIndex.rFoot, PositionIndex.rToe);
+            // AddSkeleton(PositionIndex.rThighBend, PositionIndex.rShin);
+            // AddSkeleton(PositionIndex.rShin, PositionIndex.rFoot);
+            // AddSkeleton(PositionIndex.rFoot, PositionIndex.rToe);
 
             // Left Leg
-            AddSkeleton(PositionIndex.lThighBend, PositionIndex.lShin);
-            AddSkeleton(PositionIndex.lShin, PositionIndex.lFoot);
-            AddSkeleton(PositionIndex.lFoot, PositionIndex.lToe);
+            // AddSkeleton(PositionIndex.lThighBend, PositionIndex.lShin);
+            // AddSkeleton(PositionIndex.lShin, PositionIndex.lFoot);
+            // AddSkeleton(PositionIndex.lFoot, PositionIndex.lToe);
 
             // etc
+            // AddSkeleton(PositionIndex.hip, PositionIndex.spine);
             AddSkeleton(PositionIndex.spine, PositionIndex.neck);
             AddSkeleton(PositionIndex.neck, PositionIndex.head);
-            AddSkeleton(PositionIndex.head, PositionIndex.Nose);
-            AddSkeleton(PositionIndex.neck, PositionIndex.rShldrBend);
-            AddSkeleton(PositionIndex.neck, PositionIndex.lShldrBend);
-            AddSkeleton(PositionIndex.rThighBend, PositionIndex.rShldrBend);
-            AddSkeleton(PositionIndex.lThighBend, PositionIndex.lShldrBend);
-            AddSkeleton(PositionIndex.rShldrBend, PositionIndex.abdomenUpper);
-            AddSkeleton(PositionIndex.lShldrBend, PositionIndex.abdomenUpper);
-            AddSkeleton(PositionIndex.rThighBend, PositionIndex.abdomenUpper);
-            AddSkeleton(PositionIndex.lThighBend, PositionIndex.abdomenUpper);
-            AddSkeleton(PositionIndex.lThighBend, PositionIndex.rThighBend);
+            // AddSkeleton(PositionIndex.head, PositionIndex.Nose);
+            // AddSkeleton(PositionIndex.neck, PositionIndex.rShldrBend);
+            // AddSkeleton(PositionIndex.neck, PositionIndex.lShldrBend);
+            // AddSkeleton(PositionIndex.rThighBend, PositionIndex.rShldrBend);
+            // AddSkeleton(PositionIndex.lThighBend, PositionIndex.lShldrBend);
+            // AddSkeleton(PositionIndex.rShldrBend, PositionIndex.abdomenUpper);
+            // AddSkeleton(PositionIndex.lShldrBend, PositionIndex.abdomenUpper);
+            // AddSkeleton(PositionIndex.rThighBend, PositionIndex.abdomenUpper);
+            // AddSkeleton(PositionIndex.lThighBend, PositionIndex.abdomenUpper);
+            // AddSkeleton(PositionIndex.lThighBend, PositionIndex.rThighBend);
         }
 
         // Set Inverse
@@ -333,8 +334,8 @@ public class VNectModel : MonoBehaviour
 
         // movement and rotatation of center
         var forward = TriangleNormal(jointPoints[PositionIndex.hip.Int()].Pos3D, jointPoints[PositionIndex.lThighBend.Int()].Pos3D, jointPoints[PositionIndex.rThighBend.Int()].Pos3D);
-        Debug.Log(jointPoints[PositionIndex.hip.Int()]);
-        Debug.Log(jointPoints[PositionIndex.hip.Int()].Pos3D);
+        // Debug.Log(jointPoints[PositionIndex.hip.Int()]);
+        // Debug.Log(jointPoints[PositionIndex.hip.Int()].Pos3D);
         jointPoints[PositionIndex.hip.Int()].Transform.position = jointPoints[PositionIndex.hip.Int()].Pos3D * 0.005f + new Vector3(initPosition.x, initPosition.y, initPosition.z + dz);
         jointPoints[PositionIndex.hip.Int()].Transform.rotation = Quaternion.LookRotation(forward) * jointPoints[PositionIndex.hip.Int()].InverseRotation;
 
@@ -365,7 +366,7 @@ public class VNectModel : MonoBehaviour
 
         var rHand = jointPoints[PositionIndex.rHand.Int()];
         var rf = TriangleNormal(rHand.Pos3D, jointPoints[PositionIndex.rThumb2.Int()].Pos3D, jointPoints[PositionIndex.rMid1.Int()].Pos3D);
-        //rHand.Transform.rotation = Quaternion.LookRotation(jointPoints[PositionIndex.rThumb2.Int()].Pos3D - jointPoints[PositionIndex.rMid1.Int()].Pos3D, rf) * rHand.InverseRotation;
+        rHand.Transform.rotation = Quaternion.LookRotation(jointPoints[PositionIndex.rThumb2.Int()].Pos3D - jointPoints[PositionIndex.rMid1.Int()].Pos3D, rf) * rHand.InverseRotation;
         rHand.Transform.rotation = Quaternion.LookRotation(jointPoints[PositionIndex.rThumb2.Int()].Pos3D - jointPoints[PositionIndex.rMid1.Int()].Pos3D, rf) * rHand.InverseRotation;
 
         foreach (var sk in Skeletons)

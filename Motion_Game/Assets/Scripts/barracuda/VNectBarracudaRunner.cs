@@ -327,7 +327,7 @@ public class VNectBarracudaRunner : MonoBehaviour
 
         // Calculate spine location
         jointPoints[PositionIndex.spine.Int()].Now3D = jointPoints[PositionIndex.abdomenUpper.Int()].Now3D;
-
+        
         // Kalman filter
         foreach (var jp in jointPoints)
         {
@@ -364,6 +364,7 @@ public class VNectBarracudaRunner : MonoBehaviour
 
     void measurementUpdate(VNectModel.JointPoint measurement)
     {
+        // KalmanParamQ + KalmanParamR都為0 導致NaN
         measurement.K.x = (measurement.P.x + KalmanParamQ) / (measurement.P.x + KalmanParamQ + KalmanParamR);
         measurement.K.y = (measurement.P.y + KalmanParamQ) / (measurement.P.y + KalmanParamQ + KalmanParamR);
         measurement.K.z = (measurement.P.z + KalmanParamQ) / (measurement.P.z + KalmanParamQ + KalmanParamR);
