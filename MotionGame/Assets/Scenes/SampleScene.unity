@@ -304,7 +304,7 @@ Transform:
   m_GameObject: {fileID: 534669902}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.9, z: -3}
+  m_LocalPosition: {x: -0.42, y: 0.9, z: -3.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -542,7 +542,7 @@ MonoBehaviour:
   SkeletonX: -1
   SkeletonY: 0.9
   SkeletonZ: 0
-  SkeletonScale: 0.006
+  SkeletonScale: 0.005
   ModelObject: {fileID: 706422779}
   Nose: {fileID: 2004171582}
   ZScale: 1
@@ -856,7 +856,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Wait a minute....
+  m_Text: Loading ...
 --- !u!222 &1198046883
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1037,7 +1037,7 @@ Transform:
   m_GameObject: {fileID: 1466458938}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: -1.7, y: 1.3, z: 1.5}
+  m_LocalPosition: {x: -1.7, y: 1.3, z: 3.75}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []

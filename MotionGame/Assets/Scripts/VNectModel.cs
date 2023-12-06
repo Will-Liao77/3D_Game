@@ -87,9 +87,11 @@ public class VNectModel : MonoBehaviour
     {
         public GameObject LineObject;
         public LineRenderer Line;
+        public GameObject SphereObject;
 
         public JointPoint start = null;
         public JointPoint end = null;
+        public JointPoint spherePos = null;
     }
 
     private List<Skeleton> Skeletons = new List<Skeleton>();
@@ -271,7 +273,9 @@ public class VNectModel : MonoBehaviour
             }
         }
         var hip = jointPoints[PositionIndex.hip.Int()];
-        initPosition = jointPoints[PositionIndex.hip.Int()].Transform.position;
+        // initPosition = jointPoints[PositionIndex.hip.Int()].Transform.position;
+        // initPosition = new Vector3(3, 1.25f, 0);
+        initPosition = new Vector3(10, 10, 0);
         hip.Inverse = Quaternion.Inverse(Quaternion.LookRotation(forward));
         hip.InverseRotation = hip.Inverse * hip.InitRotation;
 
@@ -281,7 +285,7 @@ public class VNectModel : MonoBehaviour
         var gaze = jointPoints[PositionIndex.Nose.Int()].Transform.position - jointPoints[PositionIndex.head.Int()].Transform.position;
         head.Inverse = Quaternion.Inverse(Quaternion.LookRotation(gaze));
         head.InverseRotation = head.Inverse * head.InitRotation;
-        
+
         var lHand = jointPoints[PositionIndex.lHand.Int()];
         var lf = TriangleNormal(lHand.Pos3D, jointPoints[PositionIndex.lMid1.Int()].Pos3D, jointPoints[PositionIndex.lThumb2.Int()].Pos3D);
         lHand.InitRotation = lHand.Transform.rotation;
@@ -354,7 +358,7 @@ public class VNectModel : MonoBehaviour
         var f = TriangleNormal(jointPoints[PositionIndex.Nose.Int()].Pos3D, jointPoints[PositionIndex.rEar.Int()].Pos3D, jointPoints[PositionIndex.lEar.Int()].Pos3D);
         var head = jointPoints[PositionIndex.head.Int()];
         head.Transform.rotation = Quaternion.LookRotation(gaze, f) * head.InverseRotation;
-        
+
         // Wrist rotation (Test code)
         var lHand = jointPoints[PositionIndex.lHand.Int()];
         var lf = TriangleNormal(lHand.Pos3D, jointPoints[PositionIndex.lMid1.Int()].Pos3D, jointPoints[PositionIndex.lThumb2.Int()].Pos3D);
@@ -370,8 +374,10 @@ public class VNectModel : MonoBehaviour
             var s = sk.start;
             var e = sk.end;
 
-            sk.Line.SetPosition(0, new Vector3(s.Pos3D.x * SkeletonScale + SkeletonX, s.Pos3D.y * SkeletonScale + SkeletonY, s.Pos3D.z * SkeletonScale + SkeletonZ));
-            sk.Line.SetPosition(1, new Vector3(e.Pos3D.x * SkeletonScale + SkeletonX, e.Pos3D.y * SkeletonScale + SkeletonY, e.Pos3D.z * SkeletonScale + SkeletonZ));
+            sk.Line.SetPosition(0, new Vector3(s.Pos3D.x * SkeletonScale + SkeletonX - 3.5f, s.Pos3D.y * SkeletonScale + SkeletonY + 0.9f, s.Pos3D.z * SkeletonScale + SkeletonZ));
+            sk.Line.SetPosition(1, new Vector3(e.Pos3D.x * SkeletonScale + SkeletonX - 3.5f, e.Pos3D.y * SkeletonScale + SkeletonY + 0.9f, e.Pos3D.z * SkeletonScale + SkeletonZ));
+            sk.SphereObject.transform.position = new Vector3(sk.spherePos.Pos3D.x * SkeletonScale + SkeletonX - 3.5f, sk.spherePos.Pos3D.y * SkeletonScale + SkeletonY + 0.9f, sk.spherePos.Pos3D.z * SkeletonScale + SkeletonZ);
+            sk.SphereObject.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
         }
     }
 
@@ -401,14 +407,16 @@ public class VNectModel : MonoBehaviour
         var sk = new Skeleton()
         {
             LineObject = new GameObject("Line"),
+            SphereObject = GameObject.CreatePrimitive(PrimitiveType.Sphere),
             start = jointPoints[s.Int()],
             end = jointPoints[e.Int()],
+            spherePos = jointPoints[e.Int()],
         };
 
         sk.Line = sk.LineObject.AddComponent<LineRenderer>();
         sk.Line.startWidth = 0.04f;
         sk.Line.endWidth = 0.01f;
-        
+
         // define the number of vertex
         sk.Line.positionCount = 2;
         sk.Line.material = SkeletonMaterial;

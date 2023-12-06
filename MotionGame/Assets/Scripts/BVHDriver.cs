@@ -63,7 +63,6 @@ public class BVHDriver : MonoBehaviour
     }
     private void DrawModel(Dictionary<string, Vector3> bvhPos)
     {
-
         GameObject hipsPos = new GameObject("hipsPos");
         hipsPos.tag = "hipsPos";
         hipsPos.transform.position = bvhPos[bp.root.name] * scaleRatio;
@@ -73,7 +72,7 @@ public class BVHDriver : MonoBehaviour
 
             // draw bvh skeleton in Scene
             Color color = new Color(1.0f, 0.0f, 0.0f);
-            Debug.DrawLine(bvhPos[bname] * scaleRatio, bvhPos[bvhHireachy[bname]] * scaleRatio, color);
+            // Debug.DrawLine(bvhPos[bname] * scaleRatio, bvhPos[bvhHireachy[bname]] * scaleRatio, color);
 
             // draw bvh skeleton in Game
             GameObject lineObj = new GameObject("bvh_line");
@@ -87,6 +86,7 @@ public class BVHDriver : MonoBehaviour
             lineRenderer.startWidth = 0.02f;
             lineRenderer.endWidth = 0.02f;
             lineRenderer.positionCount = 2;
+
             lineRenderer.SetPosition(0, bvhPos[bname] * scaleRatio);
             lineRenderer.SetPosition(1, bvhPos[bvhHireachy[bname]] * scaleRatio);
 
@@ -95,7 +95,6 @@ public class BVHDriver : MonoBehaviour
             sphereObj.transform.position = bvhPos[bname] * scaleRatio;
             sphereObj.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
         }
-
     }
 
     private void Start()
@@ -160,19 +159,23 @@ public class BVHDriver : MonoBehaviour
         {
             if (bname == "pos")
             {
-                bvhPos.Add(bp.root.name, new Vector3(currFrame["pos"].x, currFrame["pos"].y, currFrame["pos"].z));
+                // bvhPos.Add(bp.root.name, new Vector3(currFrame["pos"].x, currFrame["pos"].y, currFrame["pos"].z));
+                // fixed position
+                bvhPos.Add(bp.root.name, new Vector3(-450.0f, 0, 0));
             }
             else
             {
                 if (bvhHireachy.ContainsKey(bname) && bname != bp.root.name)
                 {
-                    Vector3 curpos = bvhPos[bvhHireachy[bname]] + currFrame[bvhHireachy[bname]] * bvhOffset[bname];
+                    Quaternion rotation = Quaternion.Euler(0, 110, 0);
+                    Vector3 curpos = bvhPos[bvhHireachy[bname]] + (rotation * currFrame[bvhHireachy[bname]]) * bvhOffset[bname];
+                    // Vector3 curpos = bvhPos[bvhHireachy[bname]] + currFrame[bvhHireachy[bname]] * bvhOffset[bname];
+
                     bvhPos.Add(bname, curpos);
                 }
             }
         }
 
-        // anim.GetBoneTransform(HumanBodyBones.Hips).position = bvhPos[bp.root.name]*scaleRatio;
         Vector3 modelHipsPos = anim.GetBoneTransform(HumanBodyBones.Hips).position;
         Vector3 modelRightUpLegPos = anim.GetBoneTransform(HumanBodyBones.RightUpperLeg).position;
         Vector3 bvhHipsPos = bvhPos[bp.root.name];
