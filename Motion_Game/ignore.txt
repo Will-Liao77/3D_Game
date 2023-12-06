@@ -1,3 +1,0 @@
-/Assets/Scripts/model/Resnet34_3inputs_448x448_20200609.onnx
-Motion_Game/Library/PackageCache/com.unity.burst@1.8.8/.Runtime/libburst-llvm-15.dylib
-/Library/Artifacts/d7/d7783d08866d882cda17fee25bcae159
