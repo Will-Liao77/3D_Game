@@ -10,6 +10,7 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 /Assets/Model/Resnet34_3inputs_448x448_20200609.onnx
+Assets/Scripts/Model/Resnet34_3inputs_448x448_20200609.onnx
 /Library/PackageCache/com.unity.burst@1.8.8/.Runtime/libburst-llvm-15.dylib
 /Library/Artifacts/d7/d7783d08866d882cda17fee25bcae159
 
