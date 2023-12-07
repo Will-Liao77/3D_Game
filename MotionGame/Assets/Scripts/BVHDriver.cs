@@ -12,6 +12,7 @@ public class BVHDriver : MonoBehaviour
     public Animator targetAvatar;
     [Tooltip("This is the path to the BVH file that should be loaded. Bone offsets are currently being ignored by this loader.")]
     public string filename;
+    public VNectModel vNectModel;
     [Tooltip("If the flag above is disabled, the frame rate given in the BVH file will be overridden by this value.")]
     public float frameRate = 60.0f;
     [Tooltip("If the BVH first frame is T(if not,make sure the defined skeleton is T).")]
@@ -34,6 +35,19 @@ public class BVHDriver : MonoBehaviour
         string bvhData = File.ReadAllText(filename);
         bp = new BVHParser(bvhData);
         frameRate = 1f / bp.frameTime;
+    }
+
+    private Dictionary<string, Vector3> bvhPos = new Dictionary<string, Vector3>();
+    public Dictionary<string, Vector3> getBvhPos()
+    {
+        return bvhPos;
+    }
+
+    private bool isLoaded = false;
+
+    public bool getIsLoaded()
+    {
+        return isLoaded;
     }
 
     private Dictionary<string, Quaternion> bvhT;
@@ -129,6 +143,7 @@ public class BVHDriver : MonoBehaviour
 
     private void Update()
     {
+        isLoaded = false;
         Dictionary<string, Quaternion> currFrame = bp.getKeyFrame(frameIdx);//frameIdx 2871
         if (frameIdx < bp.frames - 1)
         {
@@ -154,20 +169,21 @@ public class BVHDriver : MonoBehaviour
         }
 
         // draw bvh skeleton
-        Dictionary<string, Vector3> bvhPos = new Dictionary<string, Vector3>();
+        bvhPos = new Dictionary<string, Vector3>();
         foreach (string bname in currFrame.Keys)
         {
             if (bname == "pos")
             {
                 // bvhPos.Add(bp.root.name, new Vector3(currFrame["pos"].x, currFrame["pos"].y, currFrame["pos"].z));
                 // fixed position
-                bvhPos.Add(bp.root.name, new Vector3(-450.0f, 0, 0));
+                // bvhPos.Add(bp.root.name, new Vector3(-450.0f, 0, 0));
+                bvhPos.Add(bp.root.name, new Vector3(-60.0f, 0, 0));
             }
             else
             {
                 if (bvhHireachy.ContainsKey(bname) && bname != bp.root.name)
                 {
-                    Quaternion rotation = Quaternion.Euler(0, 110, 0);
+                    Quaternion rotation = Quaternion.Euler(0, 100, 0);
                     Vector3 curpos = bvhPos[bvhHireachy[bname]] + (rotation * currFrame[bvhHireachy[bname]]) * bvhOffset[bname];
                     // Vector3 curpos = bvhPos[bvhHireachy[bname]] + currFrame[bvhHireachy[bname]] * bvhOffset[bname];
 
@@ -179,10 +195,16 @@ public class BVHDriver : MonoBehaviour
         Vector3 modelHipsPos = anim.GetBoneTransform(HumanBodyBones.Hips).position;
         Vector3 modelRightUpLegPos = anim.GetBoneTransform(HumanBodyBones.RightUpperLeg).position;
         Vector3 bvhHipsPos = bvhPos[bp.root.name];
-        Vector3 bvhRightUpLegPos = bvhPos["rThigh"];
-        scaleRatio = Vector3.Distance(modelRightUpLegPos, modelHipsPos) / Vector3.Distance(bvhRightUpLegPos, bvhHipsPos);
+        // Vector3 bvhRightUpLegPos = bvhPos["rThigh"];RightUpLeg
+        Vector3 bvhRightUpLegPos = bvhPos["RightUpLeg"];
+        scaleRatio = (Vector3.Distance(modelRightUpLegPos, modelHipsPos) + 0.1f) / Vector3.Distance(bvhRightUpLegPos, bvhHipsPos);
 
-        ClearLines();
-        DrawModel(bvhPos);
+        if (vNectModel.getIsLoaded())
+        {
+            ClearLines();
+            DrawModel(bvhPos);
+        }
+
+        isLoaded = true;
     }
 }

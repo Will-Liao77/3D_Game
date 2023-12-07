@@ -304,7 +304,7 @@ Transform:
   m_GameObject: {fileID: 534669902}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.42, y: 0.9, z: -3.65}
+  m_LocalPosition: {x: 0.04, y: 0.9, z: -4.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -501,6 +501,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 706422780}
+    - targetCorrespondingSourceObject: {fileID: 8315583863143335206, guid: 376f47ea3b23a0c4390f513d69e1ca66,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 706422784}
   m_SourcePrefab: {fileID: 100100000, guid: 376f47ea3b23a0c4390f513d69e1ca66, type: 3}
 --- !u!1 &706422779 stripped
 GameObject:
@@ -521,7 +525,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetAvatar: {fileID: 706422782}
-  filename: E:\ntust\course\Unity\3D_Game\MotionGame\Assets\BVH\walk.bvh
+  filename: E:\ntust\course\Unity\3D_Game\MotionGame\Assets\BVH\walk2.bvh
+  vNectModel: {fileID: 706422781}
   frameRate: 60
   FirstT: 1
   bonemaps: []
@@ -552,6 +557,20 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 706422778}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &706422784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706422779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6faf786930a5c74da7fa8620fee53e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bvhDriver: {fileID: 706422780}
+  vNectModel: {fileID: 706422781}
 --- !u!1 &769284633
 GameObject:
   m_ObjectHideFlags: 0

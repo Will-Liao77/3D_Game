@@ -95,6 +95,17 @@ public class VNectModel : MonoBehaviour
     }
 
     private List<Skeleton> Skeletons = new List<Skeleton>();
+
+    public List<Skeleton> getSkeletons()
+    {
+        return Skeletons;
+    }
+
+    private bool isLoaded = false;
+    public bool getIsLoaded()
+    {
+        return isLoaded;
+    }
     public Material SkeletonMaterial;
 
     public bool ShowSkeleton;
@@ -255,6 +266,7 @@ public class VNectModel : MonoBehaviour
             AddSkeleton(PositionIndex.rThighBend, PositionIndex.abdomenUpper);
             AddSkeleton(PositionIndex.lThighBend, PositionIndex.abdomenUpper);
             AddSkeleton(PositionIndex.lThighBend, PositionIndex.rThighBend);
+            isLoaded = true;
         }
 
         // Set Inverse
